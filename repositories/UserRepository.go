@@ -22,7 +22,7 @@ func (user *UserClass) FindUser(f *fiber.Ctx, users *[]models.User) *gorm.DB {
 }
 
 func (user *UserClass) FindUserById(f *fiber.Ctx) *gorm.DB {
-	result := DB.First(&user.User)
+	result := DB.First(&user.User, user.User.Id)
 	if result.Error != nil {
 		panic(result.Error.Error())
 	}

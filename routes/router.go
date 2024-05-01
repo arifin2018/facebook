@@ -10,12 +10,15 @@ func Router(app *fiber.App) {
 		return c.SendString("Hello, World!")
 	})
 
+	app.Post("/auth/login", controllers.LoginController)
+
+	user := app.Group("user")
+	user.Get("/", controllers.UserIndex)
+	user.Get("/:id", controllers.UserFindById)
+	user.Post("/", controllers.UserCreate)
+	user.Put("/:id", controllers.UserUpdate)
+	user.Delete("/:id", controllers.UserDelete)
+
 	app.Get("/post", controllers.PostIndex)
 	app.Post("/post", controllers.PostCreate)
-
-	app.Get("/user", controllers.UserIndex)
-	app.Get("/user/:id", controllers.UserFindById)
-	app.Post("/user", controllers.UserCreate)
-	app.Put("/user/:id", controllers.UserUpdate)
-	app.Delete("/user/:id", controllers.UserDelete)
 }

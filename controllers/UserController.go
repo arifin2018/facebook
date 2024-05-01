@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/arifin2018/facebook/helpers"
+	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
@@ -31,7 +31,7 @@ func UserCreate(f *fiber.Ctx) error {
 	user := new(models.User)
 	f.BodyParser(user)
 	password := user.Password
-	user.Password, _ = helpers.HashPassword(password)
+	user.Password, _ = auth.HashPassword(password)
 	handlers.RequestUploadFile(f, user)
 
 	if err := validate.Struct(user); err != nil {
@@ -57,7 +57,7 @@ func UserUpdate(f *fiber.Ctx) error {
 
 	if user.Password != "" {
 		password := user.Password
-		user.Password, _ = helpers.HashPassword(password)
+		user.Password, _ = auth.HashPassword(password)
 	}
 
 	services.UpdateUser(f, user)
