@@ -1,0 +1,38 @@
+### get all8 989 post
+GET http://127.0.0.1:3000/Post HTTP/1.1
+content-type: application/json
+
+### insert a new post
+POST http://127.0.0.1:3000/Post HTTP/1.1
+content-type: multipart/form-data
+Content-Disposition: attachment; filename="1.png"
+
+{
+    "name": "sample",
+    "email": "sample@gmail.com",
+    "password": "password",
+    "image": "http://google.com"
+}
+
+### insert a new post2
+POST http://127.0.0.1:3000/Post HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="/storage/files/image1.png"
+Content-Type: image/png
+
+(data)
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+arifin
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+sample@gmail.com
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+password
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
