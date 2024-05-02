@@ -5,9 +5,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (userClass *UserClass) FindByEmail(f *fiber.Ctx, user *models.User) {
+func (userClass *UserClass) FindByEmail(f *fiber.Ctx, user *models.User) error {
 	result := DB.Where("email = ?", userClass.User.Email).First(user)
 	if result.Error != nil {
-		panic(result.Error.Error())
+		return result.Error
 	}
+	return nil
 }

@@ -1,8 +1,7 @@
 package controllers
 
 import (
-	"time"
-
+	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
@@ -12,24 +11,29 @@ import (
 func LoginController(f *fiber.Ctx) error {
 	user := new(models.User)
 	f.BodyParser(user)
-	checkLogin := services.Login(f, user)
+	checkLogin, err, findUser := services.Login(f, user)
 	if checkLogin {
-		token, err := auth.JWTClaims(f, user)
+		token, err := auth.JWTClaims(f, findUser)
 		if err != nil {
 			return f.Status(fiber.StatusForbidden).JSON(map[string]interface{}{
-				"data": err.Error(),
+				"data":  nil,
+				"token": nil,
+				"exp":   nil,
+				"error": err.Error(),
 			})
 		}
-		return f.Status(fiber.StatusUnauthorized).JSON(map[string]interface{}{
-			"data":  user,
+		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+			"data":  findUser,
 			"token": token,
-			"exp":   time.Now().Add(time.Hour * 72).Unix(),
+			"exp":   config.DefaultConfigJwt.Exp.Minute(),
+			"error": nil,
 		})
 	} else {
 		return f.Status(fiber.StatusUnauthorized).JSON(map[string]interface{}{
-			"data":  user,
+			"data":  findUser,
 			"token": nil,
 			"exp":   nil,
+			"error": err.Error(),
 		})
 	}
 }

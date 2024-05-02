@@ -17,7 +17,6 @@ func GetUser(f *fiber.Ctx, users *[]models.User) {
 }
 
 func FindUserById(f *fiber.Ctx, user *models.User) {
-	// userClass.FindUser(f, users)
 	userClass.User = *user
 	userClass.FindUserById(f)
 	*user = userClass.User
