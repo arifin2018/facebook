@@ -26,9 +26,12 @@ func Router(app *fiber.App) {
 	app.Get("/post", controllers.PostIndex)
 	app.Post("/post", controllers.PostCreate)
 
-	app.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
-	}))
+	app.Use("/api", func(c *fiber.Ctx) error {
+		jwtware.New(jwtware.Config{
+			SigningKey: jwtware.SigningKey{Key: []byte("secret")},
+		})
+		return c.Next()
+	})
 
 	// Restricted Routes
 	app.Get("/restricted", func(c *fiber.Ctx) error {
