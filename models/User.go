@@ -7,3 +7,7 @@ type User struct {
 	Password string `validate:"required" json:"password"`
 	Image    string `validate:"required" json:"image"`
 }
+
+type Me struct {
+	User User `gorm:"embedded"`
+}
