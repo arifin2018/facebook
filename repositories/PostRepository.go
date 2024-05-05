@@ -17,6 +17,13 @@ func (post *PostClass) FindPost(f *fiber.Ctx, posts *[]models.Post) {
 	}
 }
 
+func (post *PostClass) FindByIDPost(f *fiber.Ctx) {
+	result := config.DB.First(&post.Post, post.Post.ID)
+	if result.Error != nil {
+		panic(result.Error.Error())
+	}
+}
+
 func (post *PostClass) CreatePost(f *fiber.Ctx) {
 	result := config.DB.Create(&post.Post)
 	if result.Error != nil {

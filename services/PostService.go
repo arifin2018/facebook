@@ -17,6 +17,12 @@ func GetPost(f *fiber.Ctx, posts *[]models.Post) {
 	postClass.FindPost(f, posts)
 }
 
+func FindPostByID(f *fiber.Ctx, id int) models.Post {
+	postClass.Post.ID = uint(id)
+	postClass.FindByIDPost(f)
+	return postClass.Post
+}
+
 func CreatePost(f *fiber.Ctx, post *models.Post) {
 	userid, _ := strconv.Atoi(auth.MeData.User.Id)
 	postClass.Post = models.Post{

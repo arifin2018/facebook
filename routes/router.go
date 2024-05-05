@@ -29,5 +29,6 @@ func Router(app *fiber.App) {
 
 	post := api.Group("post")
 	post.Get("/", controllers.PostIndex)
+	post.Get("/:id", controllers.PostFindById)
 	post.Post("/", controllers.PostCreate)
 }

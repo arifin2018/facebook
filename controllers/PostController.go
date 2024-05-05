@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	response "github.com/arifin2018/facebook/helpers/handlers/Response"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
@@ -9,9 +11,9 @@ import (
 )
 
 var validate = validator.New()
+var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {
-	var post response.PaginateInterface = models.Post{}
 	posts := []models.Post{}
 	services.GetPost(f, &posts)
 	data := response.PaginationData{
@@ -20,10 +22,18 @@ func PostIndex(f *fiber.Ctx) error {
 		CountTotalPages: new(float64),
 		Model:           &posts,
 	}
-	post.DataPagination(f, &data)
+	postPaginate.DataPagination(f, &data)
 	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 		"data":              posts,
 		"count_total_pages": data.CountTotalPages,
+	})
+}
+
+func PostFindById(f *fiber.Ctx) error {
+	id, _ := strconv.Atoi(f.Params("id"))
+	post := services.FindPostByID(f, id)
+	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+		"data": post,
 	})
 }
 
