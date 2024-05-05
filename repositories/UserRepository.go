@@ -7,14 +7,12 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB = config.Mysql()
-
 type UserClass struct {
 	User models.User
 }
 
 func (user *UserClass) FindUser(f *fiber.Ctx, users *[]models.User) *gorm.DB {
-	result := DB.Find(&users)
+	result := config.DB.Find(&users)
 	if result.Error != nil {
 		panic(result.Error.Error())
 	}
@@ -22,7 +20,7 @@ func (user *UserClass) FindUser(f *fiber.Ctx, users *[]models.User) *gorm.DB {
 }
 
 func (user *UserClass) FindUserById(f *fiber.Ctx) *gorm.DB {
-	result := DB.First(&user.User, user.User.Id)
+	result := config.DB.First(&user.User, user.User.Id)
 	if result.Error != nil {
 		panic(result.Error.Error())
 	}
@@ -30,7 +28,7 @@ func (user *UserClass) FindUserById(f *fiber.Ctx) *gorm.DB {
 }
 
 func (user *UserClass) CreateUser(f *fiber.Ctx) models.User {
-	err := DB.Create(&user.User).Error
+	err := config.DB.Create(&user.User).Error
 	if err != nil {
 		panic(err.Error())
 	}
@@ -38,12 +36,12 @@ func (user *UserClass) CreateUser(f *fiber.Ctx) models.User {
 }
 
 func (user *UserClass) UpdateUser(f *fiber.Ctx, userUpdate *models.User) models.User {
-	DB.Save(&userUpdate)
+	config.DB.Save(&userUpdate)
 	return user.User
 }
 
 func (user *UserClass) DeleteUser(f *fiber.Ctx, id int) error {
-	err := DB.Delete(&user.User, id).Error
+	err := config.DB.Delete(&user.User, id).Error
 	if err != nil {
 		return err
 	}

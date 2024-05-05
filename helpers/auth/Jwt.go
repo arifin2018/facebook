@@ -3,7 +3,6 @@ package auth
 import (
 	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/models"
-	"github.com/arifin2018/facebook/repositories"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -34,7 +33,7 @@ func ValidationUserValidLogin(c *fiber.Ctx) error {
 		user := c.Locals("user").(*jwt.Token)
 		claims := user.Claims.(jwt.MapClaims)
 		email := claims["email"].(string)
-		err := repositories.DB.Where("email = ?", email).First(&MeData.User)
+		err := config.DB.Where("email = ?", email).First(&MeData.User)
 		if err.Error != nil {
 			panic(err.Error.Error())
 		}

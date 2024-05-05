@@ -12,30 +12,20 @@ GET http://127.0.0.1:3000/api/data HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
 
+### get all post
+GET http://127.0.0.1:3000/api/post?page=7&page_size=1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
+
 ### create a new post
 POST http://127.0.0.1:3000/api/post HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
 
 {
-    "content": "password"
+    "content": "password 15"
 }
 
-### get all8 989 post
-GET http://127.0.0.1:3000/Post HTTP/1.1
-content-type: application/json
-
-### insert a new post
-POST http://127.0.0.1:3000/Post HTTP/1.1
-content-type: multipart/form-data
-Content-Disposition: attachment; filename="1.png"
-
-{
-    "name": "sample",
-    "email": "sample@gmail.com",
-    "password": "password",
-    "image": "http://google.com"
-}
 
 ### insert a new post2
 POST http://127.0.0.1:3000/Post HTTP/1.1

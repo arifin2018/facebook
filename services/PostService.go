@@ -13,8 +13,8 @@ var postClass = repositories.PostClass{
 	Post: models.Post{},
 }
 
-func GetPost(f *fiber.Ctx) {
-
+func GetPost(f *fiber.Ctx, posts *[]models.Post) {
+	postClass.FindPost(f, posts)
 }
 
 func CreatePost(f *fiber.Ctx, post *models.Post) {
