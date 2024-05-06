@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -33,11 +32,15 @@ func CreatePost(f *fiber.Ctx, post *models.Post) {
 	postClass.CreatePost(f)
 }
 
-func UpdatePost(f *fiber.Ctx, id int, post *models.Post) models.Post {
-	postClass.Post.ID = uint(id)
+func UpdatePost(f *fiber.Ctx, post *models.Post) models.Post {
+	postClass.Post.ID = post.ID
 	postClass.FindByIDPost(f)
 	postClass.Post.Content = post.Content
-	fmt.Println(postClass.Post)
 	postClass.UpdatePost(f)
 	return postClass.Post
+}
+
+func DeletePost(f *fiber.Ctx, post *models.Post) {
+	postClass.Post.ID = post.ID
+	postClass.DeletePost(f)
 }

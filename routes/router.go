@@ -32,5 +32,5 @@ func Router(app *fiber.App) {
 	post.Get("/:id", controllers.PostFindById)
 	post.Post("/", controllers.PostCreate)
 	post.Put("/:id", controllers.PostUpdate)
-	post.Delete("/:id", controllers.PostUpdate)
+	post.Delete("/:id", controllers.PostDelete)
 }

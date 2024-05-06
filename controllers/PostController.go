@@ -50,8 +50,19 @@ func PostUpdate(f *fiber.Ctx) error {
 	id, _ := strconv.Atoi(f.Params("id"))
 	post := new(models.Post)
 	f.BodyParser(post)
-	postUpdate := services.UpdatePost(f, id, post)
+	post.ID = uint(id)
+	postUpdate := services.UpdatePost(f, post)
 	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 		"data": postUpdate,
+	})
+}
+
+func PostDelete(f *fiber.Ctx) error {
+	id, _ := strconv.Atoi(f.Params("id"))
+	post := new(models.Post)
+	post.ID = uint(id)
+	services.DeletePost(f, post)
+	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
+		"data": post,
 	})
 }

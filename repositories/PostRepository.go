@@ -37,3 +37,10 @@ func (post *PostClass) UpdatePost(f *fiber.Ctx) {
 		panic(result.Error.Error())
 	}
 }
+
+func (post *PostClass) DeletePost(f *fiber.Ctx) {
+	result := config.DB.Delete(&post.Post)
+	if result.Error != nil {
+		panic(result.Error.Error())
+	}
+}
