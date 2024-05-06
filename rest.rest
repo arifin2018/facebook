@@ -31,6 +31,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpb
     "content": "password 15"
 }
 
+### update a new post
+PUT http://127.0.0.1:3000/api/post/23 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
+
+{
+    "content": "password 23"
+}
+
 
 ### insert a new post2
 POST http://127.0.0.1:3000/Post HTTP/1.1

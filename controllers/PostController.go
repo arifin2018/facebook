@@ -23,7 +23,7 @@ func PostIndex(f *fiber.Ctx) error {
 		Model:           &posts,
 	}
 	postPaginate.DataPagination(f, &data)
-	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data":              posts,
 		"count_total_pages": data.CountTotalPages,
 	})
@@ -32,7 +32,7 @@ func PostIndex(f *fiber.Ctx) error {
 func PostFindById(f *fiber.Ctx) error {
 	id, _ := strconv.Atoi(f.Params("id"))
 	post := services.FindPostByID(f, id)
-	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": post,
 	})
 }
@@ -41,5 +41,17 @@ func PostCreate(f *fiber.Ctx) error {
 	post := new(models.Post)
 	f.BodyParser(post)
 	services.CreatePost(f, post)
-	return nil
+	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
+		"data": post,
+	})
+}
+
+func PostUpdate(f *fiber.Ctx) error {
+	id, _ := strconv.Atoi(f.Params("id"))
+	post := new(models.Post)
+	f.BodyParser(post)
+	postUpdate := services.UpdatePost(f, id, post)
+	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
+		"data": postUpdate,
+	})
 }

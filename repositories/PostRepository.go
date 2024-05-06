@@ -30,3 +30,10 @@ func (post *PostClass) CreatePost(f *fiber.Ctx) {
 		panic(result.Error.Error())
 	}
 }
+
+func (post *PostClass) UpdatePost(f *fiber.Ctx) {
+	result := config.DB.Model(post.Post).UpdateColumns(&post.Post)
+	if result.Error != nil {
+		panic(result.Error.Error())
+	}
+}
