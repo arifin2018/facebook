@@ -51,7 +51,7 @@ POST http://127.0.0.1:3000/user HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="/Users/user/Documents/test.jpeg"
+Content-Disposition: form-data; name="image"; filename="./storage/sample/test.jpeg"
 Content-Type: image/jpeg
 
 (data)
