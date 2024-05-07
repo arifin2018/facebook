@@ -1,6 +1,8 @@
 package services
 
 import (
+	"log"
+	"os"
 	"strconv"
 
 	"github.com/arifin2018/facebook/models"
@@ -43,6 +45,12 @@ func DeleteUser(f *fiber.Ctx, id string) {
 	intId, err := strconv.Atoi(id)
 	if err != nil {
 		panic(err)
+	}
+	userClass.User.Id = strconv.Itoa(intId)
+	userClass.FindUserById(f)
+	e := os.Remove(userClass.User.Image)
+	if e != nil {
+		log.Fatal(e)
 	}
 	userClass.DeleteUser(f, intId)
 }
