@@ -14,6 +14,8 @@ var DB = Mysql()
 
 // mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4
 // migrate -database mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4 -path db/migrations up
+// migrate -database mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4 -path db/migrations down
+// migrate -database mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4 -path db/migrations down
 
 // migrate -path db/migrations -database mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4 force 3
 func Mysql() *gorm.DB {

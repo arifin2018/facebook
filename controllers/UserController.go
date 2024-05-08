@@ -34,7 +34,7 @@ func UserCreate(f *fiber.Ctx) error {
 	user.Password, _ = auth.HashPassword(password)
 	handlers.RequestUploadFile(f, user)
 
-	if err := validate.Struct(user); err != nil {
+	if err := handlers.Validate.Struct(user); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		for _, validationError := range validationErrors {
 			return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{

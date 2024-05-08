@@ -38,4 +38,5 @@ func Router(app *fiber.App) {
 
 	postImage := api.Group("postImage")
 	postImage.Get("/",controllers.PostImageIndex)
+	postImage.Post("/",controllers.PostImageCreate)
 }

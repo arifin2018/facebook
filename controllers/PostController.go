@@ -6,11 +6,10 @@ import (
 	response "github.com/arifin2018/facebook/helpers/handlers/Response"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
-var validate = validator.New()
+
 var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {

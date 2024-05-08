@@ -5,8 +5,11 @@ import (
 	"time"
 
 	"github.com/arifin2018/facebook/models"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
+
+var Validate = validator.New()
 
 func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
 	file, err := f.FormFile("image")
@@ -22,24 +25,6 @@ func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
 	return nil
 }
 
-func RequestMultipleUploadFile(f *fiber.Ctx,postImages *[]models.PostImages) error {
-	form, err := f.MultipartForm()
-	if err != nil { 
-		return err
-	}
-	
-	for formFieldName, fileHeaders := range form.File {
-		for _, file := range fileHeaders {
-			destination := fmt.Sprintf("./storage/files/%s-%s-%s",formFieldName, time.Now().Format("20060102150405"), file.Filename)
-			if err := f.SaveFile(file, destination); err != nil {
-				return err
-			}
-			postImage := models.PostImages{}
-			postImage.PostId = 1
-			postImage.Caption = "awd"
-			postImage.Url = destination
-			*postImages = append(*postImages, postImage)
-		}
-	}
-	return nil
+type RequestMultipleUploadFile interface {
+	RequestMultipleUploadFile(f *fiber.Ctx) (error,interface{})
 }
