@@ -3,7 +3,7 @@ POST http://127.0.0.1:3000/auth/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "arifin@lenna.ai",
+    "email": "sample@gmail.com",
     "password": "password"
 }
 
@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpb
 ### create a new post
 POST http://127.0.0.1:3000/api/post HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTUzNjkyMzl9.zq2KanMIlNokUgEb53MtjiyYyaDEsEjVNgEqhtrhk6U
 
 {
     "content": "password 15"

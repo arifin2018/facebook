@@ -39,7 +39,10 @@ func PostFindById(f *fiber.Ctx) error {
 
 func PostCreate(f *fiber.Ctx) error {
 	post := new(models.Post)
+	// postImages := []models.PostImages{}
 	f.BodyParser(post)
+	// handlers.RequestMultipleUploadFile(f,&postImages)
+	// fmt.Println(postImages)
 	services.CreatePost(f, post)
 	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 		"data": post,

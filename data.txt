@@ -1,0 +1,50 @@
+Desain basis data untuk proyek seperti Facebook dapat melibatkan beberapa entitas utama seperti User, Post, Comment, Photo, dan hubungan antara mereka. Berikut adalah contoh desain database untuk kasus yang Anda sebutkan:
+
+Entitas dan Hubungan:
+User (Tabel users):
+    id (Primary Key)
+    username
+    email
+    password
+    profile_picture
+...
+Post (Tabel posts):
+    id (Primary Key)
+    user_id (Foreign Key ke users)
+    content
+    created_at
+...
+Comment (Tabel comments):
+    id (Primary Key)
+    user_id (Foreign Key ke users)
+    post_id (Foreign Key ke posts)
+    content
+    created_at
+...
+Photo (Tabel photos):
+    id (Primary Key)
+    post_id (Foreign Key ke posts)
+    url
+    caption
+    created_at
+...
+Hubungan Antar Entitas:
+
+Satu User dapat memiliki banyak Post:
+Hubungan One-to-Many antara User dan Post (user_id di tabel posts adalah Foreign Key yang mengacu pada id di tabel users).
+
+Satu Post dapat memiliki banyak Comment:
+Hubungan One-to-Many antara Post dan Comment (post_id di tabel comments adalah Foreign Key yang mengacu pada id di tabel posts).
+
+Satu Post dapat memiliki banyak Photo:
+Hubungan One-to-Many antara Post dan Photo (post_id di tabel photos adalah Foreign Key yang mengacu pada id di tabel posts).
+
+Satu User dapat memberikan banyak Comment di banyak Post:
+Hubungan Many-to-Many antara User dan Post melalui tabel Comments (user_id di tabel comments adalah Foreign Key yang mengacu pada id di tabel users, dan post_id di tabel comments adalah Foreign Key yang mengacu pada id di tabel posts).
+
+Indeks:
+Untuk meningkatkan kinerja, Anda dapat mempertimbangkan untuk menambahkan indeks pada kolom-kolom yang sering diakses, seperti user_id dan post_id pada tabel Comments, serta post_id pada tabel Photos.
+
+Keamanan dan Privasi:
+Pastikan untuk mengimplementasikan keamanan dan kontrol akses yang tepat, terutama terkait dengan data pengguna dan aktivitas mereka.
+Dengan desain database yang dijelaskan di atas, Anda memiliki struktur dasar untuk menyimpan data seperti yang Anda inginkan untuk proyek yang mirip dengan Facebook. Tentu saja, desain ini dapat disesuaikan lebih lanjut sesuai dengan kebutuhan dan fitur spesifik dari aplikasi Anda.

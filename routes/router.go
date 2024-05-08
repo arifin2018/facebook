@@ -35,4 +35,7 @@ func Router(app *fiber.App) {
 	post.Post("/", controllers.PostCreate)
 	post.Put("/:id", controllers.PostUpdate)
 	post.Delete("/:id", controllers.PostDelete)
+
+	postImage := api.Group("postImage")
+	postImage.Get("/",controllers.PostImageIndex)
 }
