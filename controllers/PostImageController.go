@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
@@ -38,4 +39,11 @@ func PostImageCreate(f *fiber.Ctx) error {
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": PostImages,
 	})
+}
+
+func PostImageDelete(f *fiber.Ctx) error {
+	id := f.Query("id")
+	dataId := strings.Split(id, ",")
+	services.DeletePostImage(f, dataId)
+	return nil
 }

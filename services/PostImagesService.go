@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
@@ -32,9 +33,25 @@ func CreatePostImage(f *fiber.Ctx, postImage *models.PostImages) *[]models.PostI
 	dataConvertJson, _ := json.Marshal(data)
 	err = json.Unmarshal([]byte(dataConvertJson), postImages)
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 	PostImagesRepository.PostImages = postImages
-	PostImagesRepository.CreatePostImages(f)
+	err = PostImagesRepository.CreatePostImages(f)
+	if err != nil {
+		panic(err.Error())
+	}
 	return postImages
+}
+
+func DeletePostImage(f *fiber.Ctx, dataId []string) {
+	for _, v := range dataId {
+		idInt, err := strconv.Atoi(v)
+		if err != nil {
+			panic(err.Error())
+		}
+		err = PostImagesRepository.DeletePostImages(f, idInt)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
 }
