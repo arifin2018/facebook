@@ -23,13 +23,14 @@ func FindPostByID(f *fiber.Ctx, id int) models.Post {
 	return postClass.Post
 }
 
-func CreatePost(f *fiber.Ctx, post *models.Post) {
+func CreatePost(f *fiber.Ctx, post *models.Post) *models.Post {
 	userid, _ := strconv.Atoi(auth.MeData.User.Id)
 	postClass.Post = models.Post{
 		UserId:  uint(userid),
 		Content: post.Content,
 	}
 	postClass.CreatePost(f)
+	return &postClass.Post
 }
 
 func UpdatePost(f *fiber.Ctx, post *models.Post) models.Post {

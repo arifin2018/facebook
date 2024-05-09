@@ -5,5 +5,5 @@ import (
 )
 
 func InitProvider() {
-	handlers.ConvertStringToNumber()
+	handlers.SetupDefaultConfigJwt()
 }

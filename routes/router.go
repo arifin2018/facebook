@@ -25,7 +25,7 @@ func Router(app *fiber.App) {
 	api.Use("/", middlewares.JWTMiddlewareCheckAuth())
 
 	// Restricted Routes
-	api.Use(auth.ValidationUserValidLogin)
+	api.Use("/", auth.ValidationUserValidLogin)
 
 	post := api.Group("post")
 	post.Get("/", controllers.PostIndex)
@@ -38,4 +38,9 @@ func Router(app *fiber.App) {
 	postImage.Get("/:post_id", controllers.PostImageIndex)
 	postImage.Post("/", controllers.PostImageCreate)
 	postImage.Delete("/", controllers.PostImageDelete)
+
+	comment := api.Group("comment")
+	comment.Get("/:post_id", controllers.CommentIndex)
+	comment.Post("/", controllers.CommentCreate)
+	comment.Delete("/", controllers.CommentDelete)
 }

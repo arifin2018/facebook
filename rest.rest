@@ -7,6 +7,12 @@ content-type: application/json
     "password": "password"
 }
 
+### test api
+GET http://127.0.0.1:3000/api/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTUyNzk3NjV9.VPouqXhbB9dKnAx6Om3OV-DPGQFDxWRPVk4hTQiSVmo
+
+
 ### restricted check authentication
 GET http://127.0.0.1:3000/api/data HTTP/1.1
 content-type: application/json
@@ -25,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpb
 ### create a new post
 POST http://127.0.0.1:3000/api/post HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTUzNjkyMzl9.zq2KanMIlNokUgEb53MtjiyYyaDEsEjVNgEqhtrhk6U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTU1NDM3MzN9.-mFRrKn9TLEXtJbVl5kyXwLJGQPSwiJCdtKkbqCeBg4
 
 {
     "content": "password 15"
@@ -44,6 +50,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpb
 DELETE http://127.0.0.1:3000/api/post/36 HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyaWZpbkBsZW5uYS5haSIsImV4cCI6MTcxNTA3NDg3M30.wiR6j_Othdsdydbwum6CBYH0r_-5y2en8Q-FGOOENwQ
+
+### create a new Comment
+POST http://127.0.0.1:3000/api/comment HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTUyNzk2Mjd9.RvhUCczqT6w0-wYyDrhZNAJTHu4vWNS4Url1a6bKj7c
+
+{
+    "postId": 1,
+    "content": "password 15"
+}
 
 
 ### create a new user

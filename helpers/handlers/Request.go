@@ -32,10 +32,13 @@ type RequestMultipleUploadFile interface {
 	RequestMultipleUploadFile(f *fiber.Ctx) (error, interface{})
 }
 
-func ConvertStringToNumber() {
+func SetupDefaultConfigJwt() {
 	timeexp, err := strconv.Atoi(os.Getenv("TIMEEXP"))
 	if err != nil {
 		panic(err.Error())
 	}
 	config.Timeexp = timeexp
+	*config.DefaultConfigJwt = config.ConfigJwt{
+		Exp: time.Now().Add(time.Hour * time.Duration(config.Timeexp)),
+	}
 }

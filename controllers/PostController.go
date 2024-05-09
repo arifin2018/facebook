@@ -9,7 +9,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {
@@ -42,7 +41,7 @@ func PostCreate(f *fiber.Ctx) error {
 	f.BodyParser(post)
 	// handlers.RequestMultipleUploadFile(f,&postImages)
 	// fmt.Println(postImages)
-	services.CreatePost(f, post)
+	post = services.CreatePost(f, post)
 	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 		"data": post,
 	})

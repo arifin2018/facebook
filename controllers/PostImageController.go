@@ -22,7 +22,6 @@ func PostImageIndex(f *fiber.Ctx) error {
 
 func PostImageCreate(f *fiber.Ctx) error {
 	postImage := new(models.PostImages)
-	f.BodyParser(postImage)
 	if err := f.BodyParser(postImage); err != nil {
 		panic(err.Error())
 	}
