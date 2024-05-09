@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
@@ -9,12 +11,16 @@ import (
 )
 
 func PostImageIndex(f *fiber.Ctx) error {
-	return nil
+	postImages := new([]models.PostImages)
+	id, _ := strconv.Atoi(f.Params("post_id"))
+	services.IndexPotsImages(f, id, postImages)
+	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+		"data": postImages,
+	})
 }
 
 func PostImageCreate(f *fiber.Ctx) error {
-	postImage := new(models.PostImages) 
-	// postImages := []models.PostImages{}
+	postImage := new(models.PostImages)
 	f.BodyParser(postImage)
 	if err := f.BodyParser(postImage); err != nil {
 		panic(err.Error())
@@ -27,7 +33,9 @@ func PostImageCreate(f *fiber.Ctx) error {
 			})
 		}
 	}
-	
-	services.CreatePostImage(f, postImage)
-	return nil
+
+	PostImages := services.CreatePostImage(f, postImage)
+	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+		"data": PostImages,
+	})
 }

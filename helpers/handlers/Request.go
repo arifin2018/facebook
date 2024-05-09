@@ -2,8 +2,11 @@ package handlers
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
+	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/models"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -26,5 +29,13 @@ func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
 }
 
 type RequestMultipleUploadFile interface {
-	RequestMultipleUploadFile(f *fiber.Ctx) (error,interface{})
+	RequestMultipleUploadFile(f *fiber.Ctx) (error, interface{})
+}
+
+func ConvertStringToNumber() {
+	timeexp, err := strconv.Atoi(os.Getenv("TIMEEXP"))
+	if err != nil {
+		panic(err.Error())
+	}
+	config.Timeexp = timeexp
 }

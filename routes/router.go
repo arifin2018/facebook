@@ -7,14 +7,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 func Router(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
-	
+
 	app.Post("/auth/login", controllers.LoginController)
-	
 
 	user := app.Group("user")
 	user.Get("/", controllers.UserIndex)
@@ -37,6 +35,6 @@ func Router(app *fiber.App) {
 	post.Delete("/:id", controllers.PostDelete)
 
 	postImage := api.Group("postImage")
-	postImage.Get("/",controllers.PostImageIndex)
-	postImage.Post("/",controllers.PostImageCreate)
+	postImage.Get("/:post_id", controllers.PostImageIndex)
+	postImage.Post("/", controllers.PostImageCreate)
 }

@@ -8,6 +8,8 @@ type ConfigJwt struct {
 	Exp time.Time
 }
 
+var Timeexp int
+
 var DefaultConfigJwt = ConfigJwt{
-	Exp: time.Now().Add(time.Hour * 72),
+	Exp: time.Now().Add(time.Hour * time.Duration(Timeexp)),
 }
