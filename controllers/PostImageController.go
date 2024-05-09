@@ -45,5 +45,7 @@ func PostImageDelete(f *fiber.Ctx) error {
 	id := f.Query("id")
 	dataId := strings.Split(id, ",")
 	services.DeletePostImage(f, dataId)
-	return nil
+	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+		"data": models.PostImages{},
+	})
 }
