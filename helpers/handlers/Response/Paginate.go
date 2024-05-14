@@ -12,6 +12,7 @@ type PaginationData struct {
 	TotalPages      *int64
 	CountTotalPages *float64
 	Model           interface{}
+	Link			*string
 }
 
 type PaginateInterface interface {
