@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"time"
+
 	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/models"
@@ -25,7 +27,7 @@ func LoginController(f *fiber.Ctx) error {
 		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 			"data":  findUser,
 			"token": token,
-			"exp":   config.DefaultConfigJwt.Exp.Minute(),
+			"exp":   time.Now().Add(time.Hour * time.Duration(config.Timeexp)).Format(time.DateTime),
 			"error": nil,
 		})
 	} else {
