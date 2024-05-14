@@ -3,8 +3,10 @@ package controllers
 import (
 	"strconv"
 
+	"github.com/arifin2018/facebook/helpers/auth"
 	response "github.com/arifin2018/facebook/helpers/handlers/Response"
 	"github.com/arifin2018/facebook/models"
+	requestvalidator "github.com/arifin2018/facebook/models/RequestValidator"
 	"github.com/arifin2018/facebook/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,7 +14,7 @@ import (
 var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {
-	
+
 	posts := []models.Post{}
 	services.GetPost(f, &posts)
 	data := response.PaginationData{
@@ -20,13 +22,13 @@ func PostIndex(f *fiber.Ctx) error {
 		TotalPages:      new(int64),
 		CountTotalPages: new(float64),
 		Model:           &posts,
-		Link: new(string),
+		Link:            new(string),
 	}
 	postPaginate.DataPagination(f, &data)
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data":              posts,
 		"count_total_pages": data.CountTotalPages,
-		"next_link": data.Link,
+		"next_link":         data.Link,
 	})
 }
 
@@ -40,10 +42,14 @@ func PostFindById(f *fiber.Ctx) error {
 
 func PostCreate(f *fiber.Ctx) error {
 	post := new(models.Post)
-	// postImages := []models.PostImages{}
+	userid, _ := strconv.Atoi(auth.MeData.User.Id)
+	post.UserId = uint(userid)
 	f.BodyParser(post)
-	// handlers.RequestMultipleUploadFile(f,&postImages)
-	// fmt.Println(postImages)
+	if err := requestvalidator.HandlersValidateStructPost(f, post); err != nil {
+		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
 	post = services.CreatePost(f, post)
 	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 		"data": post,

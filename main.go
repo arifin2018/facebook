@@ -10,6 +10,7 @@ import (
 func main() {
 	config.SetupEnv()
 	appFolder.InitProvider()
+	appFolder.InitProviderRequestValidator()
 	app := fiber.New()
 	config.Logger(app)
 	routes.Router(app)

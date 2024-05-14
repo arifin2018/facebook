@@ -13,7 +13,7 @@ import (
 
 type Post struct {
 	UserId  uint   `gorm:"column:User_id" validate:"required" json:"user_id"`
-	Content string `gorm:"column:Content" validate:"required" json:"content"`
+	Content string `gorm:"column:Content" validate:"required,check-userid-same-content-post" json:"content"`
 	gorm.Model
 }
 
@@ -22,15 +22,15 @@ func (p Post) DataPagination(f *fiber.Ctx, data *response.PaginationData) {
 	config.DB.Scopes(response.Paginate(f, data.TotalPages)).Find(data.Model.(*[]Post))
 	*data.CountTotalPages = math.Ceil(float64(*data.Count) / float64(*data.TotalPages))
 
-	var nextLink string 
+	var nextLink string
 	pageParams := f.Query("page")
 	pageSize := f.Query("page_size")
-	pageParamsConvertInt,_ := strconv.Atoi(pageParams)
+	pageParamsConvertInt, _ := strconv.Atoi(pageParams)
 	CountTotalPages := int(*data.CountTotalPages)
-	if pageParamsConvertInt == CountTotalPages || pageParamsConvertInt > CountTotalPages{
+	if pageParamsConvertInt == CountTotalPages || pageParamsConvertInt > CountTotalPages {
 		nextLink = strconv.Itoa(1)
-	}else{
-		nextLink = strconv.Itoa(pageParamsConvertInt+1)
+	} else {
+		nextLink = strconv.Itoa(pageParamsConvertInt + 1)
 	}
-	*data.Link = os.Getenv("BASE_URL") + "/api/post?page="+ nextLink +"&page_size="+pageSize
+	*data.Link = os.Getenv("BASE_URL") + "/api/post?page=" + nextLink + "&page_size=" + pageSize
 }
