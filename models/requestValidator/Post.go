@@ -1,4 +1,4 @@
-package requestvalidator
+package requestValidator
 
 import (
 	"errors"

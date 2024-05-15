@@ -4,10 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/services"
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -23,18 +21,17 @@ func PostImageIndex(f *fiber.Ctx) error {
 func PostImageCreate(f *fiber.Ctx) error {
 	postImage := new(models.PostImages)
 	if err := f.BodyParser(postImage); err != nil {
-		panic(err.Error())
-	}
-	if err := handlers.Validate.Struct(postImage); err != nil {
-		validationErrors := err.(validator.ValidationErrors)
-		for _, validationError := range validationErrors {
-			return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
-				"data": validationError.Error(),
-			})
-		}
+		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
 	}
 
-	PostImages := services.CreatePostImage(f, postImage)
+	PostImages, err := services.CreatePostImage(f, postImage)
+	if err != nil {
+		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": PostImages,
 	})

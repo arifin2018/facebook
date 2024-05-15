@@ -6,7 +6,7 @@ import (
 	"github.com/arifin2018/facebook/helpers/auth"
 	response "github.com/arifin2018/facebook/helpers/handlers/Response"
 	"github.com/arifin2018/facebook/models"
-	requestvalidator "github.com/arifin2018/facebook/models/RequestValidator"
+	"github.com/arifin2018/facebook/models/requestValidator"
 	"github.com/arifin2018/facebook/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -45,7 +45,7 @@ func PostCreate(f *fiber.Ctx) error {
 	userid, _ := strconv.Atoi(auth.MeData.User.Id)
 	post.UserId = uint(userid)
 	f.BodyParser(post)
-	if err := requestvalidator.HandlersValidateStructPost(f, post); err != nil {
+	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
 		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -59,7 +59,14 @@ func PostCreate(f *fiber.Ctx) error {
 func PostUpdate(f *fiber.Ctx) error {
 	id, _ := strconv.Atoi(f.Params("id"))
 	post := new(models.Post)
+	userid, _ := strconv.Atoi(auth.MeData.User.Id)
+	post.UserId = uint(userid)
 	f.BodyParser(post)
+	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
+		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
 	post.ID = uint(id)
 	postUpdate := services.UpdatePost(f, post)
 	return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{

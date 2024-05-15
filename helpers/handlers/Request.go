@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-var Validate = validator.New()
+var Validate *validator.Validate = validator.New(validator.WithRequiredStructEnabled())
 
 func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
 	file, err := f.FormFile("image")

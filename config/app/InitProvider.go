@@ -2,12 +2,12 @@ package app
 
 import (
 	"github.com/arifin2018/facebook/helpers/handlers"
-	requestvalidator "github.com/arifin2018/facebook/models/RequestValidator"
+	"github.com/arifin2018/facebook/models/requestValidator"
 )
 
 func InitProvider() {
 	handlers.SetupDefaultConfigJwt()
 }
 func InitProviderRequestValidator() {
-	requestvalidator.InitProviderValidatorRequestPost()
+	requestValidator.InitProviderValidatorRequestPost()
 }
