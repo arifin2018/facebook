@@ -10,7 +10,7 @@ import (
 
 type PostImages struct {
 	PostId uint   `gorm:"column:Post_id" validate:"required" json:"postId"`
-	Url    string `gorm:"column:Url" validate:"required,image,min=1" json:"url"`
+	Url    string `gorm:"column:Url" validate:"required,image,min=1,file-size-post-image=1048576" json:"url"`
 	gorm.Model
 }
 

@@ -22,10 +22,10 @@ func HandlersValidateStructPost(f *fiber.Ctx, post *models.Post) error {
 }
 
 func InitProviderValidatorRequestPost() {
-	validatorHasOneContentUserid(&models.Post{})
+	validatorPostHasOneContentUserid(&models.Post{})
 }
 
-func validatorHasOneContentUserid(post *models.Post) {
+func validatorPostHasOneContentUserid(post *models.Post) {
 	handlers.Validate.RegisterValidation("check-userid-same-content-post", func(fl validator.FieldLevel) bool {
 		content := fl.Field().String()
 		fieldUserId, _, _, _ := fl.GetStructFieldOKAdvanced2(fl.Parent(), "UserId")
