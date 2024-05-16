@@ -12,7 +12,16 @@ import (
 )
 
 func CommentIndex(f *fiber.Ctx) error {
-	return nil
+	post_id := f.Params("post_id")	
+	comments := new([]models.Comment)
+	postIdInt,err := strconv.Atoi(post_id)
+	if err != nil {
+		panic(err)
+	}
+	services.IndexCommentByPostId(f,postIdInt,comments)
+	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+		"data":comments,
+	})
 }
 
 func CommentCreate(f *fiber.Ctx) error {

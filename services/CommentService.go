@@ -10,7 +10,13 @@ var CommentRepository = repositories.Comment{
 	Comment: &models.Comment{},
 }
 
-func IndexComment(f *fiber.Ctx, id int, postImage *[]models.PostImages) {}
+func IndexCommentByPostId(f *fiber.Ctx, id int, comments *[]models.Comment) error {
+	CommentRepository.Comment.ID = uint(id)
+	if err := CommentRepository.IndexCommentByPostId(f, id, comments); err != nil {
+		return err
+	}
+	return nil
+}
 
 func CreateComment(f *fiber.Ctx, comment *models.Comment) error {
 	CommentRepository.Comment = comment
