@@ -1,6 +1,9 @@
 package services
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/repositories"
 	"github.com/gofiber/fiber/v2"
@@ -25,4 +28,17 @@ func CreateComment(f *fiber.Ctx, comment *models.Comment) error {
 	}
 	return nil
 }
-func DeleteComment(f *fiber.Ctx, id int, postImage *[]models.PostImages) {}
+func DeleteComment(f *fiber.Ctx, id string) error {
+	dataId := strings.Split(id, ",")
+	for _, v := range dataId {
+		id, err := strconv.Atoi(v)
+		if err != nil {
+			return err
+		}
+		CommentRepository.Comment.ID = uint(id)
+		if result := CommentRepository.DeleteComment(f); result != nil {
+			return result
+		}
+	}
+	return nil
+}

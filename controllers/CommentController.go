@@ -12,15 +12,15 @@ import (
 )
 
 func CommentIndex(f *fiber.Ctx) error {
-	post_id := f.Params("post_id")	
+	post_id := f.Params("post_id")
 	comments := new([]models.Comment)
-	postIdInt,err := strconv.Atoi(post_id)
+	postIdInt, err := strconv.Atoi(post_id)
 	if err != nil {
 		panic(err)
 	}
-	services.IndexCommentByPostId(f,postIdInt,comments)
+	services.IndexCommentByPostId(f, postIdInt, comments)
 	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
-		"data":comments,
+		"data": comments,
 	})
 }
 
@@ -50,5 +50,13 @@ func CommentCreate(f *fiber.Ctx) error {
 }
 
 func CommentDelete(f *fiber.Ctx) error {
-	return nil
+	id := f.Query("id")
+	if err := services.DeleteComment(f, id); err != nil {
+		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
+	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+		"data": models.Comment{},
+	})
 }
