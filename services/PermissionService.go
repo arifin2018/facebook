@@ -24,3 +24,20 @@ func CreatePermission(f *fiber.Ctx, permission *models.Permission) error {
 	}
 	return nil
 }
+
+func UpdatePermission(f *fiber.Ctx, id int, permission *models.Permission) error {
+	permission.ID = uint(id)
+	PermissionRepository.Permission = permission
+	if err := PermissionRepository.UpdatePermission(f); err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeletePermission(f *fiber.Ctx, id int) error {
+	PermissionRepository.Permission.ID = uint(id)
+	if err := PermissionRepository.DeletePermission(f); err != nil {
+		return err
+	}
+	return nil
+}

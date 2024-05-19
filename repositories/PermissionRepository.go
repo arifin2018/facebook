@@ -23,3 +23,17 @@ func (Permission Permissions) CreatePermission(f *fiber.Ctx) error {
 	}
 	return nil
 }
+
+func (Permission Permissions) UpdatePermission(f *fiber.Ctx) error {
+	if err := config.DB.Model(Permission.Permission).Omit("Created_at").Updates(Permission.Permission); err != nil {
+		return err.Error
+	}
+	return nil
+}
+
+func (Permission Permissions) DeletePermission(f *fiber.Ctx) error {
+	if err := config.DB.Delete(Permission.Permission); err != nil {
+		return err.Error
+	}
+	return nil
+}
