@@ -11,4 +11,5 @@ func InitProvider() {
 func InitProviderRequestValidator() {
 	requestValidator.InitProviderValidatorRequestPost()
 	requestValidator.InitProviderValidatorRequestPostImage()
+	requestValidator.InitProviderValidatorRequestPermission()
 }

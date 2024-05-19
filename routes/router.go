@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/arifin2018/facebook/controllers"
+	authcontroller "github.com/arifin2018/facebook/controllers/authController"
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/helpers/middlewares"
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +13,7 @@ func Router(app *fiber.App) {
 		return c.SendString("Hello, World!")
 	})
 
-	app.Post("/auth/login", controllers.LoginController)
+	app.Post("/auth/login", authcontroller.LoginController)
 
 	user := app.Group("user")
 	user.Get("/", controllers.UserIndex)
@@ -43,4 +44,10 @@ func Router(app *fiber.App) {
 	comment.Get("/:post_id", controllers.CommentIndex)
 	comment.Post("/", controllers.CommentCreate)
 	comment.Delete("/", controllers.CommentDelete)
+
+	permissions := api.Group("permission")
+	permissions.Get("/", authcontroller.PermissionIndex)
+	permissions.Post("/", authcontroller.PermissionCreate)
+	permissions.Put("/:id", authcontroller.PermissionUpdate)
+	permissions.Delete("/:id", authcontroller.PermissionDelete)
 }
