@@ -16,7 +16,9 @@ func CommentIndex(f *fiber.Ctx) error {
 	comments := new([]models.Comment)
 	postIdInt, err := strconv.Atoi(post_id)
 	if err != nil {
-		panic(err)
+		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
 	}
 	services.IndexCommentByPostId(f, postIdInt, comments)
 	return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
@@ -27,7 +29,9 @@ func CommentIndex(f *fiber.Ctx) error {
 func CommentCreate(f *fiber.Ctx) error {
 	comment := new(models.Comment)
 	if err := f.BodyParser(comment); err != nil {
-		panic(err.Error())
+		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
 	}
 	if err := handlers.Validate.Struct(comment); err != nil {
 		validationErrors := err.(validator.ValidationErrors)

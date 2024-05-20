@@ -18,7 +18,9 @@ func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
 	file, err := f.FormFile("image")
 	if err != nil {
 		// Handle error
-		panic(err)
+		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
 	}
 	destination := fmt.Sprintf("./storage/files/%s-%s", time.Now().Format("20060102150405"), file.Filename)
 	if err := f.SaveFile(file, destination); err != nil {
@@ -32,13 +34,14 @@ type RequestMultipleUploadFile interface {
 	RequestMultipleUploadFile(f *fiber.Ctx) (error, interface{})
 }
 
-func SetupDefaultConfigJwt() {
+func SetupDefaultConfigJwt() error {
 	timeexp, err := strconv.Atoi(os.Getenv("TIMEEXP"))
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	config.Timeexp = timeexp
 	*config.DefaultConfigJwt = config.ConfigJwt{
 		Exp: time.Now().Add(time.Hour * time.Duration(config.Timeexp)),
 	}
+	return nil
 }

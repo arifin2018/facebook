@@ -26,11 +26,11 @@ func Mysql() *gorm.DB {
 	newLogger := logger.New(
 		log.New(file, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
-		  SlowThreshold:              time.Second,   // Slow SQL threshold
-		  LogLevel:                   logger.Info, // Log level
-		  IgnoreRecordNotFoundError: true,           // Ignore ErrRecordNotFound error for logger
-		  ParameterizedQueries:      false,           // include params in the SQL log
-		  Colorful:                  false,          // Disable color
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level
+			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+			ParameterizedQueries:      false,       // include params in the SQL log
+			Colorful:                  false,       // Disable color
 		},
 	)
 

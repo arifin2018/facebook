@@ -35,7 +35,9 @@ func ValidationUserValidLogin(c *fiber.Ctx) error {
 		email := claims["email"].(string)
 		err := config.DB.Where("email = ?", email).First(&MeData.User)
 		if err.Error != nil {
-			panic(err.Error.Error())
+			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+				"data": err,
+			})
 		}
 		return c.Next()
 	}
