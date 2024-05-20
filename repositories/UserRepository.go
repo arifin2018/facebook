@@ -12,7 +12,7 @@ type UserClass struct {
 }
 
 func (user *UserClass) FindUser(f *fiber.Ctx, users *[]models.User) *gorm.DB {
-	result := config.DB.Find(&users)
+	result := config.DB.Model(&users).Preload("UserRole").Preload("UserRole.RolePermisssion").Find(&users)
 	if result.Error != nil {
 		panic(result.Error.Error())
 	}

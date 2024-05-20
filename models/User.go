@@ -6,6 +6,7 @@ type User struct {
 	Email    string `validate:"required" json:"email"`
 	Password string `validate:"required" json:"password"`
 	Image    string `validate:"required" json:"image"`
+	UserRole []Role `gorm:"many2many:user_roles;"`
 }
 
 type Me struct {
