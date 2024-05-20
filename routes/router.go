@@ -50,4 +50,10 @@ func Router(app *fiber.App) {
 	permissions.Post("/", authcontroller.PermissionCreate)
 	permissions.Put("/:id", authcontroller.PermissionUpdate)
 	permissions.Delete("/:id", authcontroller.PermissionDelete)
+
+	roles := api.Group("role")
+	roles.Get("/", authcontroller.RoleIndex)
+	roles.Post("/", authcontroller.RoleCreate)
+	roles.Put("/:id", authcontroller.RoleUpdate)
+	roles.Delete("/:id", authcontroller.RoleDelete)
 }
