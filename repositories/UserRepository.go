@@ -20,7 +20,7 @@ func (user *UserClass) FindUser(f *fiber.Ctx, users *[]models.User) *gorm.DB {
 }
 
 func (user *UserClass) FindUserById(f *fiber.Ctx) *gorm.DB {
-	result := config.DB.First(&user.User, user.User.Id)
+	result := config.DB.Model(&user.User).Preload("UserRole").Preload("UserRole.RolePermisssion").First(&user.User, user.User.Id)
 	if result.Error != nil {
 		panic(result.Error.Error())
 	}
