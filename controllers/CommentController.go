@@ -41,8 +41,7 @@ func CommentCreate(f *fiber.Ctx) error {
 			})
 		}
 	}
-	userid, _ := strconv.Atoi(auth.MeData.User.Id)
-	comment.UserId = uint(userid)
+	comment.UserId = uint(auth.MeData.User.Id)
 	if err := services.CreateComment(f, comment); err != nil {
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),

@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/helpers/handlers"
 	"github.com/arifin2018/facebook/models"
@@ -20,7 +22,8 @@ func UserIndex(f *fiber.Ctx) error {
 func UserFindById(f *fiber.Ctx) error {
 	params := f.Params("id")
 	user := new(models.User)
-	user.Id = params
+	paramsIdInt, _ := strconv.Atoi(params)
+	user.Id = uint(paramsIdInt)
 	services.FindUserById(f, user)
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": user,
@@ -51,7 +54,8 @@ func UserCreate(f *fiber.Ctx) error {
 func UserUpdate(f *fiber.Ctx) error {
 	params := f.Params("id")
 	user := new(models.User)
-	user.Id = params
+	paramsIdInt, _ := strconv.Atoi(params)
+	user.Id = uint(paramsIdInt)
 	services.FindUserById(f, user)
 	f.BodyParser(user)
 
@@ -69,7 +73,8 @@ func UserUpdate(f *fiber.Ctx) error {
 
 func UserDelete(f *fiber.Ctx) error {
 	params := f.Params("id")
-	services.DeleteUser(f, params)
+	paramsIdInt, _ := strconv.Atoi(params)
+	services.DeleteUser(f, paramsIdInt)
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": models.User{},
 	})

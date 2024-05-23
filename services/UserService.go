@@ -3,7 +3,6 @@ package services
 import (
 	"log"
 	"os"
-	"strconv"
 
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/repositories"
@@ -30,6 +29,7 @@ func CreateUser(f *fiber.Ctx, user *models.User) models.User {
 		Email:    user.Email,
 		Password: user.Password,
 		Image:    user.Image,
+		Roleid:   user.Roleid,
 	}
 
 	userData := userClass.CreateUser(f)
@@ -41,16 +41,12 @@ func UpdateUser(f *fiber.Ctx, user *models.User) {
 	userClass.UpdateUser(f, user)
 }
 
-func DeleteUser(f *fiber.Ctx, id string) {
-	intId, err := strconv.Atoi(id)
-	if err != nil {
-		panic(err)
-	}
-	userClass.User.Id = strconv.Itoa(intId)
+func DeleteUser(f *fiber.Ctx, id int) {
+	userClass.User.Id = uint(id)
 	userClass.FindUserById(f)
 	e := os.Remove(userClass.User.Image)
 	if e != nil {
 		log.Fatal(e)
 	}
-	userClass.DeleteUser(f, intId)
+	userClass.DeleteUser(f, id)
 }

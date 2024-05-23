@@ -42,8 +42,7 @@ func PostFindById(f *fiber.Ctx) error {
 
 func PostCreate(f *fiber.Ctx) error {
 	post := new(models.Post)
-	userid, _ := strconv.Atoi(auth.MeData.User.Id)
-	post.UserId = uint(userid)
+	post.UserId = uint(auth.MeData.User.Id)
 	f.BodyParser(post)
 	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
 		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
@@ -59,8 +58,7 @@ func PostCreate(f *fiber.Ctx) error {
 func PostUpdate(f *fiber.Ctx) error {
 	id, _ := strconv.Atoi(f.Params("id"))
 	post := new(models.Post)
-	userid, _ := strconv.Atoi(auth.MeData.User.Id)
-	post.UserId = uint(userid)
+	post.UserId = uint(auth.MeData.User.Id)
 	f.BodyParser(post)
 	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
 		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{

@@ -1,8 +1,6 @@
 package services
 
 import (
-	"strconv"
-
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/models"
 	"github.com/arifin2018/facebook/repositories"
@@ -24,9 +22,8 @@ func FindPostByID(f *fiber.Ctx, id int) models.Post {
 }
 
 func CreatePost(f *fiber.Ctx, post *models.Post) *models.Post {
-	userid, _ := strconv.Atoi(auth.MeData.User.Id)
 	postClass.Post = models.Post{
-		UserId:  uint(userid),
+		UserId:  uint(auth.MeData.User.Id),
 		Content: post.Content,
 	}
 	postClass.CreatePost(f)
