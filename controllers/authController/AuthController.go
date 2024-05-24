@@ -24,6 +24,14 @@ func LoginController(f *fiber.Ctx) error {
 				"error": err.Error(),
 			})
 		}
+		if err := services.FindUserById(f, findUser); err != nil {
+			return f.Status(fiber.StatusForbidden).JSON(map[string]interface{}{
+				"data":  findUser,
+				"token": nil,
+				"exp":   nil,
+				"error": err.Error(),
+			})
+		}
 		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 			"data":  findUser,
 			"token": token,

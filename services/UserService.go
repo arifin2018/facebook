@@ -17,10 +17,13 @@ func GetUser(f *fiber.Ctx, users *[]models.User) {
 	userClass.FindUser(f, users)
 }
 
-func FindUserById(f *fiber.Ctx, user *models.User) {
+func FindUserById(f *fiber.Ctx, user *models.User) error {
 	userClass.User = *user
-	userClass.FindUserById(f)
+	if err := userClass.FindUserById(f); err != nil {
+		return err
+	}
 	*user = userClass.User
+	return nil
 }
 
 func CreateUser(f *fiber.Ctx, user *models.User) error {
