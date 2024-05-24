@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -35,8 +36,13 @@ func UserCreate(f *fiber.Ctx) error {
 	f.BodyParser(user)
 	password := user.Password
 	user.Password, _ = auth.HashPassword(password)
-	handlers.RequestUploadFile(f, user)
-
+	err, destinationFile := handlers.RequestUploadFile(f, user)
+	if err != nil {
+		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
+	user.Image = destinationFile
 	if err := handlers.Validate.Struct(user); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		for _, validationError := range validationErrors {
@@ -45,7 +51,17 @@ func UserCreate(f *fiber.Ctx) error {
 			})
 		}
 	}
-	services.CreateUser(f, user)
+
+	if err := services.CreateUser(f, user); err != nil {
+		if err := os.Remove(user.Image); err != nil {
+			return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+				"data": err.Error(),
+			})
+		}
+		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+			"data": err.Error(),
+		})
+	}
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": user,
 	})

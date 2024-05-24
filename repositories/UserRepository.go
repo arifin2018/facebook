@@ -27,24 +27,16 @@ func (user *UserClass) FindUserById(f *fiber.Ctx) *gorm.DB {
 	return result
 }
 
-func (user *UserClass) CreateUser(f *fiber.Ctx) models.User {
+func (user *UserClass) CreateUser(f *fiber.Ctx) error {
 	tx := config.DB.Begin()
 
 	if err := tx.Select("Name", "Email", "Password", "Image").Create(&user.User).Error; err != nil {
 		tx.Rollback()
-		panic(err.Error())
+		return err
 	}
 
-	// userRole := models.UserRole{
-	// 	User_id: user.User.Id,
-	// 	Role_id: user.User.Roleid,
-	// }
-	// if err := tx.Create(&userRole).Error; err != nil {
-	// 	tx.Rollback()
-	// 	panic(err.Error())
-	// }
 	tx.Commit()
-	return user.User
+	return nil
 }
 
 func (user *UserClass) UpdateUser(f *fiber.Ctx, userUpdate *models.User) models.User {

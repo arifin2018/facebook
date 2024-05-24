@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -14,20 +15,20 @@ import (
 
 var Validate *validator.Validate = validator.New(validator.WithRequiredStructEnabled())
 
-func RequestUploadFile(f *fiber.Ctx, user *models.User) error {
+func RequestUploadFile(f *fiber.Ctx, user *models.User) (error, string) {
 	file, err := f.FormFile("image")
 	if err != nil {
-		// Handle error
-		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
-			"data": err.Error(),
-		})
+		return errors.New(err.Error()), ""
+	}
+
+	if file.Size > (1 << 20) { // 2MB
+		return errors.New("file size exceeds 2MB limit"), ""
 	}
 	destination := fmt.Sprintf("./storage/files/%s-%s", time.Now().Format("20060102150405"), file.Filename)
 	if err := f.SaveFile(file, destination); err != nil {
-		return err
+		return err, ""
 	}
-	user.Image = destination
-	return nil
+	return nil, destination
 }
 
 type RequestMultipleUploadFile interface {

@@ -24,9 +24,8 @@ func (u *User) AfterCreate(tx *gorm.DB) (err error) {
 	}
 	if err := tx.Create(&userRole).Error; err != nil {
 		tx.Rollback()
-		panic(err.Error())
+		return err
 	}
-	// tx.Model(u).Update("name", "arifin2")
 	return
 
 }

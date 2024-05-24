@@ -23,7 +23,7 @@ func FindUserById(f *fiber.Ctx, user *models.User) {
 	*user = userClass.User
 }
 
-func CreateUser(f *fiber.Ctx, user *models.User) models.User {
+func CreateUser(f *fiber.Ctx, user *models.User) error {
 	userClass.User = models.User{
 		Name:     user.Name,
 		Email:    user.Email,
@@ -32,9 +32,11 @@ func CreateUser(f *fiber.Ctx, user *models.User) models.User {
 		Roleid:   user.Roleid,
 	}
 
-	userData := userClass.CreateUser(f)
-	user.Id = userData.Id
-	return userData
+	err := userClass.CreateUser(f)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func UpdateUser(f *fiber.Ctx, user *models.User) {
