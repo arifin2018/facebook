@@ -13,7 +13,7 @@ import (
 func LoginController(f *fiber.Ctx) error {
 	user := new(models.User)
 	f.BodyParser(user)
-	checkLogin, err, findUser := services.Login(f, user)
+	checkLogin, findUser, err := services.Login(f, user)
 	if checkLogin {
 		token, err := auth.JWTClaims(f, findUser)
 		if err != nil {

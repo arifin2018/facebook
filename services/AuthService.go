@@ -8,14 +8,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func Login(f *fiber.Ctx, user *models.User) (bool, error, *models.User) {
+func Login(f *fiber.Ctx, user *models.User) (bool, *models.User, error) {
 	userClass.User = *user
 	user = new(models.User)
 	err := userClass.FindByEmail(f, user)
 	if err != nil {
-		return false, err, nil
+		return false, nil, err
 	}
 	userFind := user
 	checkPassword := auth.CheckPasswordHash(userClass.User.Password, user.Password)
-	return checkPassword, errors.New("Password doesn't match"), userFind
+	return checkPassword, userFind, errors.New("password doesn't match")
 }
