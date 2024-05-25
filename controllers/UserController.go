@@ -62,6 +62,14 @@ func UserCreate(f *fiber.Ctx) error {
 			"data": err.Error(),
 		})
 	}
+	if err := services.FindUserById(f, user); err != nil {
+		return f.Status(fiber.StatusForbidden).JSON(map[string]interface{}{
+			"data":  user,
+			"token": nil,
+			"exp":   nil,
+			"error": err.Error(),
+		})
+	}
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data": user,
 	})

@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS permissions (
     Created_at TIMESTAMP,
     Updated_at TIMESTAMP,
     Deleted_at TIMESTAMP,
-    PRIMARY KEY (ID)
+    PRIMARY KEY (ID),
+    UNIQUE (name)
 );

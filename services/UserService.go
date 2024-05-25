@@ -36,6 +36,7 @@ func CreateUser(f *fiber.Ctx, user *models.User) error {
 	}
 
 	err := userClass.CreateUser(f)
+	user.Id = userClass.User.Id
 	if err != nil {
 		return err
 	}
