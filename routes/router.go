@@ -29,9 +29,9 @@ func Router(app *fiber.App) {
 	api.Use("/", auth.ValidationUserValidLogin)
 
 	post := api.Group("post")
-	post.Get("/", controllers.PostIndex)
+	post.Get("/", middlewares.UserRole("admin,staff"), controllers.PostIndex)
 	post.Get("/:id", controllers.PostFindById)
-	post.Post("/", controllers.PostCreate)
+	post.Post("/", middlewares.UserRole("admin"), controllers.PostCreate)
 	post.Put("/:id", controllers.PostUpdate)
 	post.Delete("/:id", controllers.PostDelete)
 

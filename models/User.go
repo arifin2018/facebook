@@ -14,7 +14,7 @@ type User struct {
 	UserRole []Role `gorm:"many2many:user_roles;"`
 }
 type Me struct {
-	User User `gorm:"embedded"`
+	User *User
 }
 
 func (u *User) AfterCreate(tx *gorm.DB) (err error) {

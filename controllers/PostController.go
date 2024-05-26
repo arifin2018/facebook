@@ -14,7 +14,6 @@ import (
 var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {
-
 	posts := []models.Post{}
 	services.GetPost(f, &posts)
 	data := response.PaginationData{

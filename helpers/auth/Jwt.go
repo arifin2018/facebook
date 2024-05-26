@@ -8,7 +8,26 @@ import (
 )
 
 var MeData = models.Me{
-	User: models.User{},
+	User: &models.User{}, // Menggunakan pointer ke User
+}
+
+func ValidationUserValidLogin(c *fiber.Ctx) error {
+	if err := c.Locals("user"); err != nil {
+		user := c.Locals("user").(*jwt.Token)
+		claims := user.Claims.(jwt.MapClaims)
+		email := claims["email"].(string)
+		MeData.User = nil
+		if err := config.DB.Where("email = ?", email).First(&MeData.User).Error; err != nil {
+			var errorMessage string = err.Error()
+			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+				"data": errorMessage,
+			})
+		}
+		return c.Next()
+	}
+	return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+		"data": "failed token invalid",
+	})
 }
 
 func JWTClaims(f *fiber.Ctx, user *models.User) (string, error) {
@@ -26,20 +45,4 @@ func JWTClaims(f *fiber.Ctx, user *models.User) (string, error) {
 	}
 
 	return t, nil
-}
-
-func ValidationUserValidLogin(c *fiber.Ctx) error {
-	if err := c.Locals("user"); err != nil {
-		user := c.Locals("user").(*jwt.Token)
-		claims := user.Claims.(jwt.MapClaims)
-		email := claims["email"].(string)
-		err := config.DB.Where("email = ?", email).First(&MeData.User)
-		if err.Error != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
-				"data": err,
-			})
-		}
-		return c.Next()
-	}
-	return c.SendString("failed token invalid")
 }
