@@ -19,7 +19,19 @@ services:
       - '3306'
       # Where our data will be persisted
     volumes:
-      - ./database:/var/lib/mysql
+      - ./docker/database:/var/lib/mysql
+  redis:
+    image: redis:7.2.5
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis:/root/redis
+      - ./docker/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=password
+      - REDIS_PORT=6379
+      # - REDIS_DATABASES=16
 # Names our volume
 volumes:
   database:

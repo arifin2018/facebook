@@ -1,16 +1,24 @@
 package config
 
 import (
+	"context"
 	"log"
 	"os"
 	"time"
 
+	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
+var Context = context.Background()
 var DB = Mysql()
+var Redis = redis.NewClient(&redis.Options{
+	Addr:     "localhost:6379",
+	Password: "", // no password set
+	DB:       0,  // use default DB
+})
 
 // mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4
 // migrate -database mysql://root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4 -path db/migrations up

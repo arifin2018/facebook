@@ -19,4 +19,5 @@ func Logger(app *fiber.App) {
 		Format: "body : ${body} | queryParams : ${queryParams} | reqHeaders : ${reqHeaders} | ${time} | ${status} | ${latency} | ${ip} | ${method} | url : ${url} | path : ${path} | route : ${route} | ${error}\n",
 	}))
 	log.SetOutput(file)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }

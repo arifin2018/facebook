@@ -1,4 +1,6 @@
-database
+/docker/database
+/docker/redis
+/docker/redis.conf
 /storage/files/*
 /storage/logs/*
 /storage/.DS_Store

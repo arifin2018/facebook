@@ -1,7 +1,11 @@
 package auth
 
 import (
+	"fmt"
+	"log"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/models"
@@ -21,8 +25,24 @@ func ValidationUserValidLogin(c *fiber.Ctx) error {
 		MeData.User = nil
 		if err := config.DB.Where("email = ?", email).First(&MeData.User).Error; err != nil {
 			var errorMessage string = err.Error()
+			log.Println(errorMessage)
 			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 				"data": errorMessage,
+			})
+		}
+		tokenKeyUserId := fmt.Sprintf("token_userid_%v", MeData.User.Id)
+		getAuthorization := c.Get("Authorization")
+		tokenAuthorization := strings.Split(getAuthorization, " ")
+		val, err := config.Redis.Get(c.Context(), tokenKeyUserId).Result()
+		if err != nil || len(tokenAuthorization) != 2 {
+			log.Println(err)
+			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+				"data": err,
+			})
+		}
+		if val != tokenAuthorization[1] {
+			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
+				"messages": "Invalid or expired token",
 			})
 		}
 		return c.Next()
@@ -36,6 +56,7 @@ func JWTClaims(f *fiber.Ctx, user *models.User) (string, error) {
 	// Create the Claims
 	claims := jwt.MapClaims{
 		"email": user.Email,
+		"time":  time.Now(),
 		"exp":   config.DefaultConfigJwt.Exp.Unix(),
 	}
 	// Create token

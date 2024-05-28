@@ -24,12 +24,12 @@ func Router(app *fiber.App) {
 
 	api := app.Group("api")
 	api.Use("/", middlewares.JWTMiddlewareCheckAuth())
-
 	// Restricted Routes
 	api.Use("/", auth.ValidationUserValidLogin)
 
 	post := api.Group("post")
 	post.Get("/", middlewares.UserRole("admin,staff"), controllers.PostIndex)
+	// post.Get("/", controllers.PostIndex)
 	post.Get("/:id", controllers.PostFindById)
 	post.Post("/", middlewares.UserRole("admin"), controllers.PostCreate)
 	post.Put("/:id", controllers.PostUpdate)
