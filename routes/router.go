@@ -13,6 +13,7 @@ func Router(app *fiber.App) {
 		return c.SendString("Hello, World!")
 	})
 	app.Static("/storage/files", "./storage/files")
+	app.Static("/storage/swagger", "./storage/swagger")
 
 	app.Post("/auth/login", authcontroller.LoginController)
 

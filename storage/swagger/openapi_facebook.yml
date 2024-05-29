@@ -1,0 +1,479 @@
+openapi: 3.0.0
+info:
+  title: facebook
+  version: 1.0.0
+servers:
+  - url: https://rtc.lenna.ai
+  - url: http://127.0.0.1:3000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Posts
+  - name: Post Image
+  - name: Comments
+  - name: Permissions
+  - name: Roles
+  - name: Users
+paths:
+  /api/post/1:
+    get:
+      tags:
+        - Posts
+      summary: Get single data
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTU3MTIwNzh9.KxEP7IljRsmSXAUSMDibZhBtXnbM2ArBM-uZkwVUjLA
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Posts
+      summary: Update data Copy
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE5NzQ4NzM0ODV9.UQgaGoKI_Um45cPqGkEzDaDa7suQQQcpaCHWWmdW60Q
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/post:
+    get:
+      tags:
+        - Posts
+      summary: Get all data
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Posts
+      summary: Insert data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                content: password 19
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE5NzQ4NzM0ODV9.UQgaGoKI_Um45cPqGkEzDaDa7suQQQcpaCHWWmdW60Q
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/post/2:
+    put:
+      tags:
+        - Posts
+      summary: Update data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                content: password 2
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE5NzQ4NzM0ODV9.UQgaGoKI_Um45cPqGkEzDaDa7suQQQcpaCHWWmdW60Q
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/postImage/1:
+    get:
+      tags:
+        - Post Image
+      summary: Get single data by postid
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTU3NDE1ODd9.BFnBZQdCCyWIZ8P2HcspGlAflE1JhkbFg_WL3C-rdK8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/postImage:
+    post:
+      tags:
+        - Post Image
+      summary: insert data
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                PostId:
+                  type: integer
+                  example: '1'
+                Url:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Post Image
+      summary: insert data Copy
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: query
+          schema:
+            type: string
+          example: 5,6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/comment/1:
+    get:
+      tags:
+        - Comments
+      summary: Get single data by postid
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbXBsZUBnbWFpbC5jb20iLCJleHAiOjE3MTU3NDE1ODd9.BFnBZQdCCyWIZ8P2HcspGlAflE1JhkbFg_WL3C-rdK8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/comment:
+    post:
+      tags:
+        - Comments
+      summary: insert data
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: '"{\n    \"postId\": 2,\n    \"content\": \"password 111\"\n}\n"'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Comments
+      summary: insert data Copy
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: content-type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: query
+          schema:
+            type: integer
+          example: '5'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/permission:
+    post:
+      tags:
+        - Permissions
+      summary: Permission Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Delete_user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Permissions
+      summary: get Permission data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/permission/2:
+    put:
+      tags:
+        - Permissions
+      summary: Update Permission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Update_User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Permissions
+      summary: Delete Permission
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /role:
+    post:
+      tags:
+        - Roles
+      summary: Role Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: admin
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/role:
+    get:
+      tags:
+        - Roles
+      summary: get role data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/role/2:
+    put:
+      tags:
+        - Roles
+      summary: Update role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: staff
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/role/4:
+    delete:
+      tags:
+        - Roles
+      summary: Delete Permission
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /user/1:
+    get:
+      tags:
+        - Users
+      summary: Get User
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /user:
+    post:
+      tags:
+        - Users
+      summary: Create User
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: azriel
+                email:
+                  type: string
+                  example: arifin@gmail.com
+                password:
+                  type: string
+                  example: password
+                image:
+                  type: string
+                  format: binary
+                roleid:
+                  type: integer
+                  example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/login:
+    post:
+      tags:
+        - default
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: arifin@gmail.com
+                password: password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
