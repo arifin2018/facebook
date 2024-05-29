@@ -6,13 +6,21 @@ import (
 	"github.com/arifin2018/facebook/helpers/auth"
 	"github.com/arifin2018/facebook/helpers/middlewares"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func Router(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
+	app.Use(cors.New(cors.Config{
+		AllowHeaders:     "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
+		AllowOrigins:     "*",
+		AllowCredentials: true,
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+	}))
 	app.Static("/storage/files", "./storage/files")
+
 	app.Post("/auth/login", authcontroller.LoginController)
 
 	user := app.Group("user")
