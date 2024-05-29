@@ -28,6 +28,7 @@ func RequestUploadFile(f *fiber.Ctx, user *models.User) (error, string) {
 	}
 	destination := fmt.Sprintf("./storage/files/%s-%s", time.Now().Format("20060102150405"), file.Filename)
 	if err := f.SaveFile(file, destination); err != nil {
+		log.Println(err)
 		return err, ""
 	}
 	return nil, destination
