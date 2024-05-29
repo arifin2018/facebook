@@ -10,12 +10,7 @@ import (
 )
 
 func Router(app *fiber.App) {
-	app.Use(cors.New(cors.Config{
-		AllowHeaders:     "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection", // Hapus Access-Control-Allow-Origin
-		AllowOrigins:     "https://myxml.in,http://127.0.0.1:5500",
-		AllowCredentials: true,
-		AllowMethods:     "GET, POST, HEAD, PUT, DELETE, PATCH, OPTIONS", // Pisahkan setiap metode dengan koma tanpa menggunakan strings.Join
-	}))
+	app.Use(cors.New())
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
