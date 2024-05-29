@@ -2,5 +2,6 @@
 /docker/redis
 /docker/redis.conf
 /storage/files/*
-/storage/logs/*
+/storage/logs/*.log
+/storage/logs/database/*.log
 /storage/.DS_Store

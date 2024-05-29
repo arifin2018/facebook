@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -16,6 +17,7 @@ func CommentIndex(f *fiber.Ctx) error {
 	comments := new([]models.Comment)
 	postIdInt, err := strconv.Atoi(post_id)
 	if err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -29,6 +31,7 @@ func CommentIndex(f *fiber.Ctx) error {
 func CommentCreate(f *fiber.Ctx) error {
 	comment := new(models.Comment)
 	if err := f.BodyParser(comment); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -43,6 +46,7 @@ func CommentCreate(f *fiber.Ctx) error {
 	}
 	comment.UserId = uint(auth.MeData.User.Id)
 	if err := services.CreateComment(f, comment); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -55,6 +59,7 @@ func CommentCreate(f *fiber.Ctx) error {
 func CommentDelete(f *fiber.Ctx) error {
 	id := f.Query("id")
 	if err := services.DeleteComment(f, id); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})

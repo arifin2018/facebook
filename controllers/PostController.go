@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -44,6 +45,7 @@ func PostCreate(f *fiber.Ctx) error {
 	post.UserId = uint(auth.MeData.User.Id)
 	f.BodyParser(post)
 	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -60,6 +62,7 @@ func PostUpdate(f *fiber.Ctx) error {
 	post.UserId = uint(auth.MeData.User.Id)
 	f.BodyParser(post)
 	if err := requestValidator.HandlersValidateStructPost(f, post); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusCreated).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})

@@ -1,6 +1,7 @@
 package authcontroller
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/arifin2018/facebook/models"
@@ -12,6 +13,7 @@ import (
 func PermissionIndex(f *fiber.Ctx) error {
 	permissions := new([]models.Permission)
 	if err := services.IndexPermission(f, permissions); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -24,16 +26,19 @@ func PermissionIndex(f *fiber.Ctx) error {
 func PermissionCreate(f *fiber.Ctx) error {
 	permission := new(models.Permission)
 	if err := f.BodyParser(permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
 	}
 	if err := requestValidator.HandlersValidateStructPermission(f, permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
 	}
 	if err := services.CreatePermission(f, permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -48,16 +53,19 @@ func PermissionUpdate(f *fiber.Ctx) error {
 	id := f.Params("id")
 	intId, _ := strconv.Atoi(id)
 	if err := f.BodyParser(permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
 	}
 	if err := requestValidator.HandlersValidateStructPermission(f, permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
 	}
 	if err := services.UpdatePermission(f, intId, permission); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -71,6 +79,7 @@ func PermissionDelete(f *fiber.Ctx) error {
 	id := f.Params("id")
 	intId, _ := strconv.Atoi(id)
 	if err := services.DeletePermission(f, intId); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})

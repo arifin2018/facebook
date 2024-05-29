@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -18,6 +19,7 @@ var Validate *validator.Validate = validator.New(validator.WithRequiredStructEna
 func RequestUploadFile(f *fiber.Ctx, user *models.User) (error, string) {
 	file, err := f.FormFile("image")
 	if err != nil {
+		log.Println(err.Error())
 		return errors.New(err.Error()), ""
 	}
 

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"os"
 	"strconv"
 
@@ -38,6 +39,7 @@ func UserCreate(f *fiber.Ctx) error {
 	user.Password, _ = auth.HashPassword(password)
 	err, destinationFile := handlers.RequestUploadFile(f, user)
 	if err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -54,15 +56,18 @@ func UserCreate(f *fiber.Ctx) error {
 
 	if err := services.CreateUser(f, user); err != nil {
 		if err := os.Remove(user.Image); err != nil {
+			log.Println(err.Error())
 			return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 				"data": err.Error(),
 			})
 		}
+		log.Println(err.Error())
 		return f.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
 	}
 	if err := services.FindUserById(f, user); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusForbidden).JSON(map[string]interface{}{
 			"data":  user,
 			"token": nil,

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 	"strings"
 
@@ -21,6 +22,7 @@ func PostImageIndex(f *fiber.Ctx) error {
 func PostImageCreate(f *fiber.Ctx) error {
 	postImage := new(models.PostImages)
 	if err := f.BodyParser(postImage); err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})
@@ -28,6 +30,7 @@ func PostImageCreate(f *fiber.Ctx) error {
 
 	PostImages, err := services.CreatePostImage(f, postImage)
 	if err != nil {
+		log.Println(err.Error())
 		return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 			"data": err.Error(),
 		})

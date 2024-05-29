@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"log"
+
 	"github.com/arifin2018/facebook/config"
 	"github.com/arifin2018/facebook/models"
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +14,7 @@ type Role struct {
 
 func (Role Role) IndexRole(f *fiber.Ctx, role *[]models.Role) error {
 	if err := config.DB.Find(role); err != nil {
+		log.Println(err.Error)
 		return err.Error
 	}
 	return nil
@@ -19,6 +22,7 @@ func (Role Role) IndexRole(f *fiber.Ctx, role *[]models.Role) error {
 
 func (Role Role) CreateRole(f *fiber.Ctx) error {
 	if err := config.DB.Create(Role.Role); err != nil {
+		log.Println(err.Error)
 		return err.Error
 	}
 	return nil
@@ -26,6 +30,7 @@ func (Role Role) CreateRole(f *fiber.Ctx) error {
 
 func (Role Role) UpdateRole(f *fiber.Ctx) error {
 	if err := config.DB.Model(Role.Role).Omit("Created_at").Updates(Role.Role); err != nil {
+		log.Println(err.Error)
 		return err.Error
 	}
 	return nil
