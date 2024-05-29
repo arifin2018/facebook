@@ -12,7 +12,7 @@ func Router(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
-
+	app.Static("/storage/files", "./storage/files")
 	app.Post("/auth/login", authcontroller.LoginController)
 
 	user := app.Group("user")
