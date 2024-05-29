@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"strings"
+
 	"github.com/arifin2018/facebook/controllers"
 	authcontroller "github.com/arifin2018/facebook/controllers/authController"
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -12,9 +14,17 @@ import (
 func Router(app *fiber.App) {
 	app.Use(cors.New(cors.Config{
 		AllowHeaders:     "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
-		AllowOrigins:     "https://myxml.in",
-		AllowCredentials: true,
-		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+		AllowOrigins:     "*",
+		AllowCredentials: false,
+		AllowMethods: strings.Join([]string{
+			fiber.MethodGet,
+			fiber.MethodPost,
+			fiber.MethodHead,
+			fiber.MethodPut,
+			fiber.MethodDelete,
+			fiber.MethodPatch,
+			fiber.MethodOptions,
+		}, ","),
 	}))
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
