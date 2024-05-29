@@ -14,9 +14,10 @@ func main() {
 	appFolder.InitProviderRequestValidator()
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
-		AllowHeaders: "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
-		// AllowOrigins:     "http://127.0.0.1:5500,http://127.0.0.1:3000,https://rtc.lenna.ai",
-		AllowOrigins:     "*",
+		AllowHeaders: "Origin, Content-Type, Accept",
+		// AllowHeaders: "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
+		AllowOrigins: "http://localhost:5500,http://localhost:3000,https://rtc.lenna.ai",
+		// AllowOrigins:     "*",
 		AllowCredentials: false,
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}))
