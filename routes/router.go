@@ -1,6 +1,9 @@
 package routes
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/arifin2018/facebook/controllers"
 	authcontroller "github.com/arifin2018/facebook/controllers/authController"
 	"github.com/arifin2018/facebook/helpers/auth"
@@ -14,6 +17,19 @@ func Router(app *fiber.App) {
 	})
 	app.Static("/storage/files", "./storage/files")
 	app.Static("/storage/swagger", "./storage/swagger")
+
+	app.Get("/json", func(c *fiber.Ctx) error {
+		data2 := c.Query("files")
+		// Baca file JSON
+		filesName := fmt.Sprintf("./storage/swagger/%v", data2)
+		data, err := os.ReadFile(filesName)
+		if err != nil {
+			return err
+		}
+
+		// Kirim JSON sebagai respons
+		return c.Status(fiber.StatusOK).Send(data)
+	})
 
 	app.Post("/auth/login", authcontroller.LoginController)
 
