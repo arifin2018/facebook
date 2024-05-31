@@ -1,0 +1,1735 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Qucit Authentication Management API",
+		"description": "This part of the qAuth API will deal with user handling for all the\nQucit Platform. These resources will be part of the global qAuth API.\n",
+		"version": "0.1.0"
+	},
+	"schemes": [
+		"https"
+	],
+	"basePath": "/v2",
+	"produces": [
+		"application/json"
+	],
+	"paths": {
+		"/roles": {
+			"get": {
+				"summary": "retrieves all available roles.",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"responses": {
+					"200": {
+						"description": "Array of roles",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/RoleSummary"
+									}
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "creates a new role",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"parameters": [
+					{
+						"name": "roles",
+						"schema": {
+							"$ref": "#/definitions/RoleAccess"
+						},
+						"in": "body",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Freshly created Role",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/RoleAccess"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/roles/{role_name}": {
+			"delete": {
+				"summary": "Deletes an existing role.",
+				"description": "A role can only be deleted if it's not a parent to an existing\nrole and has no users assigned to it.\n",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/role-access/{role_name}": {
+			"get": {
+				"summary": "retrieves a role context.",
+				"description": "Retrieves a role's context, including available applications,\ntheir resources and properties.\n",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"responses": {
+					"200": {
+						"description": "Role context",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/RoleAccess"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Updates existing role context",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "roles",
+						"schema": {
+							"$ref": "#/definitions/RoleAccess"
+						},
+						"in": "body",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Updated role summary",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/RoleSummary"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/role-access/{role_name}/applications": {
+			"get": {
+				"summary": "retrieves all the role's applications.",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Applications"
+				],
+				"responses": {
+					"200": {
+						"description": "Array of applications",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/ApplicationSummary"
+									}
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Grants the role access to an application",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "body",
+						"schema": {
+							"$ref": "#/definitions/RoleAccessApplicationsPost"
+						},
+						"in": "body",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Applications"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/role-access/{role_name}/applications/{application_id}": {
+			"get": {
+				"summary": "retrieves a role's application context.",
+				"description": "Retrieves a role's application context, including its\nresources and properties.\n",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "application_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Applications"
+				],
+				"responses": {
+					"200": {
+						"description": "Application context",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/ApplicationAccess"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Updates existing role",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "application_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "application_context",
+						"schema": {
+							"$ref": "#/definitions/ApplicationAccess"
+						},
+						"in": "body",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Updated application summary",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/ApplicationAccess"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Removes role access to the given application.",
+				"description": "When access is removed, all properties of the application that are assigned specifically to the given role are kept anyway (in case we wanted to grant access again).\n",
+				"tags": [
+					"Management",
+					"Roles"
+				],
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "application_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/role-access/{role_name}/properties": {
+			"get": {
+				"summary": "retrieves all roles properties",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Properties"
+				],
+				"responses": {
+					"200": {
+						"description": "Array of properties",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/PropertySummary"
+									}
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "updates role property values",
+				"description": "Accept multiple properties at once and performs bulk updates.\n",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "properties",
+						"in": "body",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Property"
+							}
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Properties"
+				],
+				"responses": {
+					"200": {
+						"description": "Array of properties",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/PropertySummary"
+									}
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/role-access/{role_name}/properties/{property_id}": {
+			"get": {
+				"summary": "Retrieves the value for the given property id.",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "property_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Properties"
+				],
+				"responses": {
+					"200": {
+						"description": "Requested property value",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Updates value of a property.",
+				"description": "If the property is not set (using default value or parent value)\nThe link will be made for the current role and a value will be\nstored.\n",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "property_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "body",
+						"schema": {
+							"$ref": "#/definitions/RoleAccessPropertiesPut"
+						},
+						"in": "body",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Properties"
+				],
+				"responses": {
+					"200": {
+						"description": "Updated property",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"$ref": "#/definitions/Property"
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Deletes selected property.",
+				"description": "Once deleted, the value will fallback to the parent property or\nthe default value.\n",
+				"parameters": [
+					{
+						"name": "role_name",
+						"type": "string",
+						"in": "path",
+						"required": true
+					},
+					{
+						"name": "property_id",
+						"type": "string",
+						"in": "path",
+						"required": true
+					}
+				],
+				"tags": [
+					"Management",
+					"Roles",
+					"Properties"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/token": {
+			"get": {
+				"summary": "retrieve an access token.",
+				"description": "To obtain a token, authentication credentials must be sent using HTTP Basic Auth,\nusing the username and password that were provided on subscription. This token can give access\nto user and also be extended to endusers if `qid` is provided.\n",
+				"tags": [
+					"Token",
+					"Usage"
+				],
+				"parameters": [
+					{
+						"name": "qid",
+						"type": "string",
+						"in": "query",
+						"description": "EndUser unique ID."
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A valid access token.",
+						"schema": {
+							"$ref": "#/definitions/TokenGetResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/end-users/invites": {
+			"post": {
+				"summary": "creates an invitation",
+				"description": "An invitation is valid for 24 hours. It will enable the receiver to create a qucit-enduser account.\nEvery invitation should be linked to an email. The email address will receive a subscription link.\nThe link can be used only once for subscription.\n",
+				"tags": [
+					"Usage",
+					"Qucit Users"
+				],
+				"parameters": [
+					{
+						"name": "body",
+						"required": true,
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/UserEndusersInvite"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"get": {
+				"summary": "Retrieves the list of non reclaimed invitations",
+				"tags": [
+					"Usage",
+					"Qucit Users"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserEndusersInvite"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/end-users": {
+			"get": {
+				"summary": "List of subscribed end users.",
+				"tags": [
+					"Usage",
+					"Qucit Users"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserEndUsersSummariesResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/forms": {
+			"get": {
+				"summary": "Retrieves all available forms for given user",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormsResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "creates a new Form.",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UserFormsPostPut"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/forms/{form_id}": {
+			"get": {
+				"summary": "Retrieves all available forms for given user",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique form ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Updates existing form",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique form ID"
+					},
+					{
+						"name": "body",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UserFormsPostPut"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "deletes a form (only if it doesn't have any responses attached)",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique form ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/forms/{form_id}/export": {
+			"get": {
+				"summary": "downloads a CSV file with all the results.",
+				"description": "The CSV will have the following header `timestamp;enduser_username;Q1;..;Qn`\n",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique form ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"type": "file",
+							"format": "text/csv"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/forms/{form_id}/responses": {
+			"get": {
+				"summary": "Retrieves a summary of previously provided responses",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/UsersFormsResponseSummary"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/end-users/{qid}": {
+			"get": {
+				"summary": "subscribed end user",
+				"tags": [
+					"Usage",
+					"Qucit Users"
+				],
+				"parameters": [
+					{
+						"name": "qid",
+						"type": "string",
+						"in": "path",
+						"required": true,
+						"description": "Unique end user ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserEndUsersSummaryResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "updates end user. Mostly enable/disable end user accounts.",
+				"tags": [
+					"Usage",
+					"Qucit Users"
+				],
+				"parameters": [
+					{
+						"name": "qid",
+						"type": "string",
+						"in": "path",
+						"required": true,
+						"description": "Unique end user ID"
+					},
+					{
+						"name": "body",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UserEndUsersSummaryPut"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserEndUsersSummaryResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/end-users/token": {
+			"get": {
+				"summary": "retrieve an access token.",
+				"description": "To obtain a token, authentication credentials must be sent using HTTP Basic Auth,\nusing the username and password that were provided on subscription.\n",
+				"tags": [
+					"Token",
+					"Usage",
+					"Qucit Endusers"
+				],
+				"responses": {
+					"200": {
+						"description": "A valid access token.",
+						"schema": {
+							"$ref": "#/definitions/TokenGetResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/end-users/subscription-form": {
+			"get": {
+				"summary": "returns a subscription form as HTML form.",
+				"description": "The form will provide a way to a freshly invited person to subscribe. Once used, the subscription token\nwill be deleted.\n",
+				"tags": [
+					"Usage",
+					"Qucit Endusers"
+				],
+				"parameters": [
+					{
+						"name": "subscription_token",
+						"in": "query",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "HTML form",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "posts subscription query.",
+				"tags": [
+					"Usage",
+					"Qucit Endusers"
+				],
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/QucitEndusersSubscriptionFormPost"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/end-users/forms": {
+			"get": {
+				"summary": "Retrieves all available forms for given user",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormsResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/end-users/forms/{form_id}": {
+			"get": {
+				"summary": "Retrieves all available forms for given user",
+				"tags": [
+					"Usage",
+					"Qucit Users",
+					"Forms"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique form ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Done",
+						"schema": {
+							"$ref": "#/definitions/UserFormsResp"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/end-users/forms/{form_id}/responses": {
+			"post": {
+				"summary": "Creates a new survey response.",
+				"description": "Will send user generated response and assign it to the given form ID.\n",
+				"tags": [
+					"Usage",
+					"Qucit Endusers"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					},
+					{
+						"name": "body",
+						"required": true,
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/EndUsersFromsResponsesPost"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/NoContent"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"get": {
+				"summary": "Retrieves a summary of previously provided responses from the current enduser",
+				"tags": [
+					"Usage",
+					"Qucit Endusers"
+				],
+				"parameters": [
+					{
+						"name": "form_id",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/EndusersFormsResponseSummary"
+						}
+					},
+					"default": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"NoContent": {
+			"description": "Empty",
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object"
+				}
+			}
+		},
+		"Error": {
+			"type": "object",
+			"properties": {
+				"message": {
+					"type": "object",
+					"properties": {
+						"param": {
+							"type": "string"
+						},
+						"error": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"RoleSummary": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Role Unique Name"
+				}
+			}
+		},
+		"RoleAccess": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Role Unique Name"
+				},
+				"parent": {
+					"type": "string",
+					"description": "Role Parent Name"
+				},
+				"applications": {
+					"type": "object",
+					"description": "Available Applications and their resources"
+				}
+			},
+			"required": [
+				"name",
+				"parent",
+				"applications"
+			]
+		},
+		"ApplicationSummary": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Application Name"
+				},
+				"id": {
+					"type": "string",
+					"description": "Application Unique internal ID"
+				}
+			}
+		},
+		"ApplicationAccess": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Application Name"
+				},
+				"id": {
+					"type": "string",
+					"description": "Application Unique internal ID"
+				},
+				"is_enabled": {
+					"type": "boolean",
+					"description": "Enabled"
+				},
+				"is_readonly": {
+					"type": "boolean",
+					"description": "Read only"
+				},
+				"properties": {
+					"type": "object",
+					"description": "Application Properties"
+				},
+				"resources": {
+					"type": "object",
+					"description": "Application Resources"
+				}
+			},
+			"required": [
+				"id",
+				"is_enabled",
+				"is_readonly",
+				"properties",
+				"resources"
+			]
+		},
+		"Property": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"description": "Property Unique Internal ID"
+				},
+				"value": {
+					"type": "string",
+					"description": "Property value"
+				}
+			},
+			"required": [
+				"id",
+				"value"
+			]
+		},
+		"PropertySummary": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"description": "Property Unique Internal ID"
+				},
+				"name": {
+					"type": "string",
+					"description": "Property Name"
+				},
+				"value": {
+					"type": "string",
+					"description": "Value"
+				},
+				"resource_name": {
+					"type": "string",
+					"description": "Resource Name"
+				},
+				"application_id": {
+					"type": "string",
+					"description": "Application Unique internal ID"
+				}
+			},
+			"required": [
+				"id",
+				"value"
+			]
+		},
+		"RoleAccessApplicationsPost": {
+			"type": "object",
+			"properties": {
+				"application_id": {
+					"type": "string",
+					"description": "Application unique ID"
+				}
+			}
+		},
+		"RoleAccessPropertiesPut": {
+			"type": "object",
+			"properties": {
+				"value": {
+					"type": "string",
+					"description": "Value to assign to property"
+				}
+			}
+		},
+		"TokenGetResp": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"access_token": {
+							"type": "string",
+							"description": "Valid access token"
+						},
+						"expires_in": {
+							"type": "integer",
+							"description": "Validity in seconds"
+						}
+					}
+				}
+			}
+		},
+		"UserEndUsersSummary": {
+			"type": "object",
+			"properties": {
+				"qid": {
+					"type": "string",
+					"description": "Unique end user ID"
+				},
+				"username": {
+					"type": "string",
+					"description": "end user username"
+				},
+				"email": {
+					"type": "string",
+					"description": "end user email"
+				},
+				"is_active": {
+					"type": "boolean",
+					"description": "whether the end user is active."
+				}
+			}
+		},
+		"UserEndUsersSummaryResp": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"$ref": "#/definitions/UserEndUsersSummary"
+				}
+			}
+		},
+		"UserEndUsersSummariesResp": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/UserEndUsersSummary"
+					}
+				}
+			}
+		},
+		"UserEndUsersSummaryPut": {
+			"type": "object",
+			"properties": {
+				"is_active": {
+					"type": "boolean",
+					"description": "whether the end user is active."
+				}
+			},
+			"required": [
+				"is_active"
+			]
+		},
+		"UserEndusersInvite": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "string",
+							"format": "email",
+							"description": "enduser email."
+						}
+					}
+				}
+			}
+		},
+		"QucitEndusersSubscriptionFormPost": {
+			"type": "object",
+			"properties": {
+				"subscription_token": {
+					"type": "string",
+					"description": "Valid subscription token"
+				},
+				"username": {
+					"type": "string",
+					"description": "Username"
+				},
+				"password": {
+					"type": "string",
+					"format": "password",
+					"description": "User password"
+				}
+			},
+			"required": [
+				"subscription_token",
+				"username",
+				"password"
+			]
+		},
+		"FormResponse": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"question_id": {
+						"type": "string",
+						"description": "Question ID, unique within the form"
+					},
+					"answers": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"description": "Answer to the question as text"
+						}
+					}
+				}
+			}
+		},
+		"EndUsersFromsResponsesPost": {
+			"type": "object",
+			"properties": {
+				"enduser_selected_lat": {
+					"type": "number"
+				},
+				"enduser_selected_lng": {
+					"type": "number"
+				},
+				"lat": {
+					"type": "number"
+				},
+				"lng": {
+					"type": "number"
+				},
+				"floor": {
+					"type": "integer"
+				},
+				"response": {
+					"$ref": "#/definitions/FormResponse"
+				}
+			},
+			"required": [
+				"lat",
+				"lng",
+				"floor",
+				"response"
+			]
+		},
+		"UsersFormsQuestionChoices": {
+			"type": "object",
+			"description": "Required when type is set to `list`",
+			"properties": {
+				"multiple": {
+					"type": "boolean",
+					"description": "Whether we accept multiple answer"
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"type": "string",
+								"description": "Choice as presented to the end user"
+							},
+							"value": {
+								"type": "string",
+								"description": "Choice as stored in the database."
+							}
+						}
+					}
+				}
+			}
+		},
+		"UsersFormsQuestionPost": {
+			"type": "object",
+			"properties": {
+				"title": {
+					"type": "string",
+					"description": "The actual question as presented to the user. Must be unique access the form."
+				},
+				"required": {
+					"type": "boolean",
+					"description": "whether an answer is required for this question or if it could be left blank"
+				},
+				"choices": {
+					"$ref": "#/definitions/UsersFormsQuestionChoices"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"string",
+						"list"
+					]
+				},
+				"maxlength": {
+					"type": "integer",
+					"description": "Maximum length of an interable type (string included)"
+				}
+			},
+			"required": [
+				"title",
+				"required",
+				"type"
+			]
+		},
+		"UsersFormsQuestion": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/UsersFormsQuestionPost"
+				},
+				{
+					"properties": {
+						"question_id": {
+							"type": "string",
+							"description": "Question ID, unique within the form"
+						}
+					}
+				}
+			]
+		},
+		"UserFormsPostPut": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Form name"
+				},
+				"questions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/UsersFormsQuestion"
+					}
+				}
+			},
+			"required": [
+				"name"
+			]
+		},
+		"UserForm": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/UserFormsPostPut"
+				},
+				{
+					"properties": {
+						"form_id": {
+							"type": "string",
+							"description": "Unique form ID"
+						},
+						"uid": {
+							"type": "string",
+							"description": "Unique user ID"
+						}
+					}
+				}
+			]
+		},
+		"UserFormsResp": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/UserForm"
+					}
+				}
+			}
+		},
+		"UserFormResp": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"$ref": "#/definitions/UserForm"
+				}
+			}
+		},
+		"EndusersFormsResponseSummary": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					}
+				}
+			}
+		},
+		"UsersFormsResponseSummary": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"created_at": {
+								"type": "string",
+								"format": "date-time",
+								"description": "Response creation date"
+							},
+							"end_user": {
+								"$ref": "#/definitions/UserEndUsersSummary"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
