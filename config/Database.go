@@ -42,7 +42,7 @@ func Mysql() *gorm.DB {
 		},
 	)
 
-	dsn := "root:password@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:Arifin123!@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger,
 	})
