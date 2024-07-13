@@ -16,6 +16,17 @@ type Post struct {
 	Content string `gorm:"column:Content" validate:"required,check-userid-same-content-post" json:"content"`
 	gorm.Model
 }
+type GetPost struct {
+	UserId  uint   `gorm:"column:User_id;index"`
+	Content string `gorm:"column:Content" validate:"required,check-userid-same-content-post" json:"content"`
+	User  User `gorm:"foreignKey:Id;references:UserId"`
+	gorm.Model
+}
+
+func (GetPost) TableName() string {
+	return "posts"
+}
+
 
 func (p Post) DataPagination(f *fiber.Ctx, data *response.PaginationData) {
 	config.DB.Model(p).Count(data.Count)

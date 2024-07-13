@@ -10,8 +10,8 @@ type PostClass struct {
 	Post models.Post
 }
 
-func (post *PostClass) FindPost(f *fiber.Ctx, posts *[]models.Post) error {
-	result := config.DB.Find(posts)
+func (post *PostClass) FindPost(f *fiber.Ctx, posts *[]models.GetPost) error {
+	result := config.DB.Model(posts).Preload("User").Find(posts)
 	if result.Error != nil {
 		return result.Error
 	}

@@ -7,3 +7,4 @@
 /storage/.DS_Store
 facebook
 ./facebook
+.env

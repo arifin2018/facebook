@@ -15,7 +15,7 @@ import (
 var Context = context.Background()
 var DB = Mysql()
 var Redis = redis.NewClient(&redis.Options{
-	Addr:     "localhost:6379",
+	Addr:     "35.240.145.253:6379",
 	Password: "", // no password set
 	DB:       0,  // use default DB
 })
@@ -42,7 +42,7 @@ func Mysql() *gorm.DB {
 		},
 	)
 
-	dsn := "root:Arifin123!@tcp(127.0.0.1:3306)/restful_api_facebook?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:Arifin123!@tcp(35.240.145.253:3306)/restful_api_facebook?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger,
 	})

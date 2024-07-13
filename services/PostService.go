@@ -11,7 +11,7 @@ var postClass = repositories.PostClass{
 	Post: models.Post{},
 }
 
-func GetPost(f *fiber.Ctx, posts *[]models.Post) {
+func GetPost(f *fiber.Ctx, posts *[]models.GetPost) {
 	postClass.FindPost(f, posts)
 }
 

@@ -15,7 +15,7 @@ import (
 var postPaginate response.PaginateInterface = models.Post{}
 
 func PostIndex(f *fiber.Ctx) error {
-	posts := []models.Post{}
+	posts := []models.GetPost{}
 	services.GetPost(f, &posts)
 	data := response.PaginationData{
 		Count:           new(int64),
@@ -24,7 +24,7 @@ func PostIndex(f *fiber.Ctx) error {
 		Model:           &posts,
 		Link:            new(string),
 	}
-	postPaginate.DataPagination(f, &data)
+	// postPaginate.DataPagination(f, &data)
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data":              posts,
 		"count_total_pages": data.CountTotalPages,
