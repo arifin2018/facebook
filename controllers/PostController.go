@@ -25,6 +25,7 @@ func PostIndex(f *fiber.Ctx) error {
 		Link:            new(string),
 	}
 	// postPaginate.DataPagination(f, &data)
+	// arifin
 	return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 		"data":              posts,
 		"count_total_pages": data.CountTotalPages,
