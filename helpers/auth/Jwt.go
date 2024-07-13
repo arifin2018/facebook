@@ -41,6 +41,9 @@ func ValidationUserValidLogin(c *fiber.Ctx) error {
 			})
 		}
 		if val != tokenAuthorization[1] {
+			fmt.Println("halo")
+			fmt.Println("val != tokenAuthorization[1]", val)
+			fmt.Println("val != tokenAuthorization[1]", tokenAuthorization[1])
 			return c.Status(fiber.StatusBadRequest).JSON(map[string]interface{}{
 				"messages": "Invalid or expired token",
 			})
