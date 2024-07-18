@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	jwtware "github.com/gofiber/contrib/jwt"
@@ -13,8 +13,8 @@ func JWTMiddlewareCheckAuth() fiber.Handler {
 	return jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte(codeJwt)},
 		ErrorHandler: func(f *fiber.Ctx, err error) error {
-			fmt.Println("ErrorHandler")
-			fmt.Println(err)
+			log.Println("ErrorHandler")
+			log.Println(err)
 			return f.Status(fiber.StatusAccepted).JSON(map[string]interface{}{
 				"messages": "Invalid or expired token",
 			})
